@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "SaveViewController.h"
 //#import "SelectSoundContorller.h"
-//
+
 
 static NSUInteger kNumberOfPages = 2;
 
@@ -21,10 +21,10 @@ static NSString *ImageKey = @"imageKey";
 - (void)loadScrollViewWithPage:(int)page;
 - (void)scrollViewDidScroll:(UIScrollView *)sender;
 - (void)_awakeFromMyNib;
-
-- (void)_play:(AVAudioPlayer *) player:(NSIndexPath*)atPath;
-- (void)_pause:(AVAudioPlayer *) player:(NSIndexPath*)atPath;
-- (void)_stop:(AVAudioPlayer *) player:(NSIndexPath*)atPath;
+- (void) changePlayingIcon:(ICONTYPE)icon atIndexPath:(NSIndexPath *) path;
+- (void)_play:(AVAudioPlayer *) player At:(NSIndexPath*)path;
+- (void)_pause:(AVAudioPlayer *) player At:(NSIndexPath*)path;
+- (void)_stop:(AVAudioPlayer *) player At:(NSIndexPath*)path;
 - (NSIndexPath *) _getIndexPathFrom:(id)sender;
 - (void) _initTimerArray;
 - (void) invalidateTimer:(NSInteger) index;
@@ -140,7 +140,7 @@ static NSString *ImageKey = @"imageKey";
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewDidAppear:animated];
     //[self palyAllPlayers];
-    [self replayPausedPlayers];
+    [self restorePausedPlayers];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -399,9 +399,9 @@ static NSString *ImageKey = @"imageKey";
     AVAudioPlayer * selectedPlayer = [self getPlayerAt:row];
     BOOL isPlaying = [selectedPlayer isPlaying];
     if (isPlaying) {
-        [self _pause: selectedPlayer :indexPath];
+        [self _pause: selectedPlayer At:indexPath];
     }else {
-        [self _play: selectedPlayer :indexPath];
+        [self _play: selectedPlayer At:indexPath];
     }
 }
 
@@ -512,16 +512,15 @@ static NSString *ImageKey = @"imageKey";
     
     AVAudioPlayer * oldPlayer = [self getPlayerAt: rowIndex];
     
-    //NSIndexPath * atPath = self.myTableView indexPathForCell:
     NSIndexPath * indexPath = [self.myTableView indexPathForCell:[[self.myTableView visibleCells] objectAtIndex:rowIndex]];
     AVAudioPlayer * newPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     [newPlayer setVolume:[oldPlayer volume]];
     [newPlayer prepareToPlay];
     //[oldPlayer stop];
-    [self _stop:oldPlayer :indexPath];
+    [self _stop:oldPlayer At:indexPath];
     oldPlayer = nil;
     //[self.soundPlayers replaceObjectAtIndex:rowIndex withObject:newPlayer];
-    [self setPlayerAt:rowIndex:newPlayer];
+    [self setPlayer:newPlayer At:rowIndex];
     [newPlayer release];
     [fileURL release];
     
@@ -605,9 +604,7 @@ static NSString *ImageKey = @"imageKey";
         [tmpPlayer setVolume:volume];
         [tmpPlayer setDelegate: self];
         [tmpPlayer prepareToPlay];
-        //tmpPlayer.numberOfLoops = -1;
-        [self setPlayerAt:i :tmpPlayer];
-        //[soundPlayers addObject:tmpPlayer];
+        [self setPlayer:tmpPlayer At:i];
         [tmpPlayer release];
         [fileURL release];
     }
@@ -625,33 +622,15 @@ static NSString *ImageKey = @"imageKey";
         player = [self getPlayerAt:i];
         if([player isPlaying]){
             NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
-            [self _pause:player : indexPath];
+            [self _pause:player At: indexPath];
             //[player pause];
             
         }
         
     }
-    need to invalidate the timer.
+    //need to invalidate the timer.
 }
 
-- (void) replayPausedPlayers{
-    NSLog(@"Replay all players");
-    for (int i = 0 ; i < [self.players count]; i++){
-        if( [self getIsPlayingAt:i]){
-            
-        }
-    }
-    
-    for (int i = 0; i < [self.players count]; i++){
-        if ( self getIsPlayingAt:i){
-            AVAudioPlayer * player = [self getPlayerAt:row];
-            NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:row];
-            [self _play:player : indexPath];
-        }
-    }
-    
-    // recall the timer ??
-}
 
 - (void) playAllPlayers {
     NSLog(@"Play All Players");
@@ -660,7 +639,7 @@ static NSString *ImageKey = @"imageKey";
         player = [self getPlayerAt:i];
         if(![player isPlaying]){
             NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
-            [self _play:player : indexPath];
+            [self _play:player At:indexPath];
         }
         
     }
@@ -671,42 +650,36 @@ static NSString *ImageKey = @"imageKey";
     for (int i = 0; i < [self.players count]; i++) {
         AVAudioPlayer * player = [self getPlayerAt:i];
         NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
-        [self _stop:player :indexPath];
+        [self _stop:player At:indexPath];
     }
 }
 
 - (void) releaseAllPlayers {
     NSLog(@"release All players");
-////    for (AVAudioPlayer * player in self.soundPlayers) {
-////        [player release];
-////    }
-//    for (int i = 0; i < [self.players count]; i++) {
-//        AVAudioPlayer * player = [self getPlayerAt:i];
-//        //NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
-//        [self _stop:player :indexPath];
-//    }
 }
 
-- (void) initPlayingIndex {
-//    NSUInteger count = [self.soundPlayers count];
-//    playingIndex = [[NSMutableArray alloc] initWithCapacity:count];
-//    for ( int i = 0 ; i < count; i++){
-//        [playingIndex addObject:[NSNumber numberWithBool:NO]];
-//    }
-}
 
 //same as replayAllplayers
 - (void) restorePausedPlayers {
     // need to refire the timer
-    for (NSNumber * pausedElement in self.playingIndex) {
-        NSUInteger row = [pausedElement unsignedIntegerValue];
-        AVAudioPlayer * player = [self getPlayerAt:row];
-        [player play];
+    NSLog(@"Replay all players");
+    for (int i = 0; i < [self.players count]; i++){
+        PLAYINGSTATE state = [self getPlayingStateAt:i];
+        NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
+        if (state == PLAYING){
+            AVAudioPlayer * player = [self getPlayerAt:i];
+            [self _play:player At: indexPath];
+        }else if(state == LOOPING){
+            AVAudioPlayer * player = [self getPlayerAt:i];
+            NSTimeInterval interval = [self getFireTimeIntervalAt:i];
+            NSDictionary * userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:player,kPlayerInstance, nil];
+            NSTimer * timer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(playPlayer:) userInfo:userInfo repeats:NO];
+            [self setTimer:timer At:i];
+            [self changePlayingIcon:PLAYINGICON atIndexPath:indexPath];
+        }else{
+            
+        }
     }
-}
-
-- (void) resetsavePlayingIndex {
-    
 }
 
 - (void) savePlayingIndex {
@@ -715,48 +688,53 @@ static NSString *ImageKey = @"imageKey";
         AVAudioPlayer * player = [self getPlayerAt:i];
         NSTimer * timer = [self getTimerAt:i];
         if ([player isPlaying]) {
-            [self setIsPlayingAt:i :YES];
+            [self setPlayingState:PLAYING At:i];
         }else if([timer isValid]){
-            need to save timer left time.
-            [self setIsPlayingAt:i :YES];
+            //need to save timer left time.
+            NSDate * date = [timer fireDate];
+            NSTimeInterval timeInterval = [date timeIntervalSinceNow];
+            [self setFireTimeInterval:timeInterval At:i];
+            [self setPlayingState:LOOPING At:i];
         }else{
-            [self setIsPlayingAt:i :NO];
+            [self setPlayingState:PAUSED At:i];
         }
     }
 }
 
 
-- (void) _play:(AVAudioPlayer *)player:(NSIndexPath*)atPath{
-    UITableViewCell * selectedCell = [self.myTableView cellForRowAtIndexPath:atPath];
-    UIButton * clickedButton = (UIButton *)[selectedCell viewWithTag:kTableViewCellPlayButtonTag];
-    [clickedButton setImage:[sharedObject getApplictionImageFrom:kPauseButtonImage] forState:UIControlStateNormal];
+- (void) _play:(AVAudioPlayer *)player At:(NSIndexPath *)path{
+    [self changePlayingIcon:PLAYINGICON atIndexPath:path];
     [player play];
-    //clickedButton setImage: forState:<#(UIControlState)#>
     
 }
 
-- (void) _pause:(AVAudioPlayer *)player:(NSIndexPath*)atPath{
-    NSInteger index = [atPath row];
-    UITableViewCell * selectedCell = [self.myTableView cellForRowAtIndexPath:atPath];
-    UIButton * clickedButton = (UIButton *)[selectedCell viewWithTag:kTableViewCellPlayButtonTag];
-    [clickedButton setImage:[sharedObject getApplictionImageFrom:kPlayButtonImage] forState:UIControlStateNormal];
+- (void) _pause:(AVAudioPlayer *)player At:(NSIndexPath *)path{
+    NSInteger index = [path row];
+    [self changePlayingIcon:PAUSEDICON atIndexPath:path];
     [self invalidateTimer:index];
     [player pause];
     
 }
 
 
-- (void)_stop:(AVAudioPlayer *) player:(NSIndexPath*)atPath{
-    NSInteger index = [atPath row];
-    UITableViewCell * selectedCell = [self.myTableView cellForRowAtIndexPath:atPath];
-    UIButton * clickedButton = (UIButton *)[selectedCell viewWithTag:kTableViewCellPlayButtonTag];
-    [clickedButton setImage:[sharedObject getApplictionImageFrom:kPlayButtonImage] forState:UIControlStateNormal];
+- (void)_stop:(AVAudioPlayer *) player At:(NSIndexPath *)path{
+    NSInteger index = [path row];
+    [self changePlayingIcon:STOPPEDICON atIndexPath:path];
     [self invalidateTimer:index];
     [player stop];
 }
 
-//- (void) _saveTimer:)
-
+- (void) changePlayingIcon:(ICONTYPE)icon atIndexPath:(NSIndexPath *) path{
+    UITableViewCell * selectedCell = [self.myTableView cellForRowAtIndexPath:path];
+    UIButton * clickedButton = (UIButton *)[selectedCell viewWithTag:kTableViewCellPlayButtonTag];
+    UIImage * image;
+    if (icon == PLAYINGICON) {
+        image = [sharedObject getApplictionImageFrom:kPauseButtonImage];
+    }else if (icon == PAUSEDICON || icon == STOPPEDICON){
+        image = [sharedObject getApplictionImageFrom:kPlayButtonImage];
+    }
+    [clickedButton setImage:image forState:UIControlStateNormal];
+}
 
 #pragma mark -
 #pragma mark UIAlertView Delegate
@@ -795,7 +773,7 @@ static NSString *ImageKey = @"imageKey";
     }
     NSDictionary * userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:player,kPlayerInstance, nil];
     NSTimer * tmpTimer = [NSTimer scheduledTimerWithTimeInterval:waitTime target:self selector:@selector(playPlayer:) userInfo:userInfo repeats:NO];
-    [self setTimerAt:index :tmpTimer];
+    [self setTimer:tmpTimer At:index];
     //[self.timersArray replaceObjectAtIndex:index withObject:tmpTimer];
     [userInfo release];
 }
@@ -825,38 +803,6 @@ static NSString *ImageKey = @"imageKey";
     }
 }
 
-- (NSTimer *) getTimerAt:(NSInteger)index{
-    NSMutableDictionary * dict = [self.players objectAtIndex:index];
-    NSTimer * timer = [dict objectForKey:kTimerInstance];
-    return timer;
-}
-
-- (BOOL) getIsPlayingAt:(NSInteger) index{
-    NSMutableDictionary * dict = [self.players objectAtIndex:index];
-    BOOL isPlaying = [[dict objectForKey:kIsPlaying]boolValue];
-    return isPlaying;
-}
-
-- (AVAudioPlayer *) getPlayerAt:(NSInteger) index{
-    NSMutableDictionary * dict = [self.players objectAtIndex:index];
-    AVAudioPlayer * player = [dict objectForKey:kPlayerInstance];
-    return player;
-}
-
-- (void) setTimerAt:(NSInteger)index:(NSTimer *) timer{
-    NSMutableDictionary * dict = [self.players objectAtIndex:index];
-    [dict setObject:timer forKey:kTimerInstance];
-}
-
-- (void) setPlayerAt:(NSInteger)index:(AVAudioPlayer *) player{
-    NSMutableDictionary * dict = [self.players objectAtIndex:index];
-    [dict setObject:player forKey:kPlayerInstance];
-}
-
-- (void) setIsPlayingAt:(NSInteger)index:(BOOL) isPlaying{
-    NSMutableDictionary * dict = [self.players objectAtIndex:index];
-    [dict setObject:[NSNumber numberWithBool:isPlaying] forKey:kIsPlaying];
-}
 
 - (NSInteger) getIndexOfPlayerBy:(AVAudioPlayer *)player{
     for (int i = 0; i< [self.players count]; i++) {
@@ -866,6 +812,50 @@ static NSString *ImageKey = @"imageKey";
         }
     }
     return -1;
+}
+
+- (NSTimer *) getTimerAt:(NSInteger)index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    NSTimer * timer = [dict objectForKey:kTimerInstance];
+    return timer;
+}
+
+- (PLAYINGSTATE) getPlayingStateAt:(NSInteger) index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    PLAYINGSTATE isPlaying = [[dict objectForKey:kPlayingState]integerValue];
+    return isPlaying;
+}
+
+- (AVAudioPlayer *) getPlayerAt:(NSInteger) index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    AVAudioPlayer * player = [dict objectForKey:kPlayerInstance];
+    return player;
+}
+
+- (NSTimeInterval) getFireTimeIntervalAt:(NSInteger)index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    NSTimeInterval timeInterval = [[dict objectForKey:kTimeInterval] doubleValue];
+    return timeInterval;
+}
+
+- (void) setTimer:(NSTimer *)timer At:(NSInteger)index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    [dict setObject:timer forKey:kTimerInstance];
+}
+
+- (void) setPlayer:(AVAudioPlayer *) player At:(NSInteger)index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    [dict setObject:player forKey:kPlayerInstance];
+}
+
+- (void) setPlayingState:(PLAYINGSTATE) playingState At:(NSInteger)index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    [dict setObject:[NSNumber numberWithInteger:playingState] forKey:kPlayingState];
+}
+
+- (void) setFireTimeInterval:(NSTimeInterval)interval At:(NSInteger)index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    [dict setObject:[NSNumber numberWithDouble:interval] forKey:kTimeInterval];
 }
 
 @end

@@ -24,8 +24,21 @@
 
 #define kPlayerInstance @"playerInstance"
 #define kTimerInstance @"timerInstance"
-#define kIsPlaying @"isPlaying"
+#define kPlayingState @"PlayingState"
+#define kTimeInterval @"TimeInterval"
 
+typedef enum PLAYINGSTATE {
+    STOPPED = 1,
+    PAUSED = 2,
+    PLAYING = 3,
+    LOOPING = 4
+    } PLAYINGSTATE;
+
+typedef enum ICONTYPE {
+    PLAYINGICON = 0,
+    PAUSEDICON = 1,
+    STOPPEDICON = 1
+} ICONTYPE;
 
 //#define kImageMappingFileName @"__icons"
 
@@ -112,7 +125,7 @@
 // players method
 - (void) _initSoundPlayers;
 - (void) pauseAllPlayers;
-- (void) replayPausedPlayers;
+- (void) restorePausedPlayers;
 - (void) playAllPlayers;
 - (void) stopAllPlayers;
 - (void) releaseAllPlayers;
@@ -125,13 +138,20 @@
 
 - (IBAction)changePage:(id)sender;
 
-- (NSTimer *) getTimerAt:(NSInteger)index;
-- (BOOL) getIsPlayingAt:(NSInteger) index;
-- (AVAudioPlayer *) getPlayerAt:(NSInteger) index;
-- (void) setTimerAt:(NSInteger)index:(NSTimer *) timer;
-- (void) setPlayerAt:(NSInteger)index:(AVAudioPlayer *) player;
-- (void) setIsPlayingAt:(NSInteger)index:(BOOL) playingIndex;
+
+// player getter and setter
 - (NSInteger) getIndexOfPlayerBy:(AVAudioPlayer *)player;
+
+- (NSTimer *) getTimerAt:(NSInteger)index;
+- (PLAYINGSTATE) getPlayingStateAt:(NSInteger)index;
+- (AVAudioPlayer *) getPlayerAt:(NSInteger) index;
+- (NSTimeInterval) getFireTimeIntervalAt:(NSInteger)index;
+
+- (void) setTimer:(NSTimer *)timer At:(NSInteger)index;
+- (void) setPlayer:(AVAudioPlayer *) player At:(NSInteger)index;
+- (void) setPlayingState:(PLAYINGSTATE) playingState At:(NSInteger)index;
+- (void) setFireTimeInterval:(NSTimeInterval)interval At:(NSInteger)index;
+
 
 - (NSIndexPath *) getIndexPathFromTableViewBy:(NSInteger)row;
 @end
