@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>songList</key>
+	<array>
+		<dict>
+			<key>SoundPath</key>
+			<string>BBB.mp3</string>
+			<key>Volume</key>
+			<real>0.4</real>
+			<key>Loop</key>
+			<integer>-1</integer>
+		</dict>
+		<dict>
+			<key>SoundPath</key>
+			<string>train_crossing.mp3</string>
+			<key>Volume</key>
+			<real>0.9</real>
+			<key>Loop</key>
+			<integer>10812</integer>
+		</dict>
+	</array>
+</dict>
+</plist>

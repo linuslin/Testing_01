@@ -1,0 +1,500 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1504307514FAADC2002BB7A9 /* playButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1504307414FAADC2002BB7A9 /* playButton.png */; };
+		1504307814FAB375002BB7A9 /* chronmeter.png in Resources */ = {isa = PBXBuildFile; fileRef = 1504307714FAB375002BB7A9 /* chronmeter.png */; };
+		1504307F14FAB527002BB7A9 /* SaveButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1504307914FAB526002BB7A9 /* SaveButton.png */; };
+		1504308014FAB527002BB7A9 /* addButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1504307A14FAB526002BB7A9 /* addButton.png */; };
+		1504308114FAB527002BB7A9 /* LoadButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1504307B14FAB526002BB7A9 /* LoadButton.png */; };
+		1504308214FAB527002BB7A9 /* FavoriteStar.png in Resources */ = {isa = PBXBuildFile; fileRef = 1504307C14FAB526002BB7A9 /* FavoriteStar.png */; };
+		1504308314FAB527002BB7A9 /* Favorite.png in Resources */ = {isa = PBXBuildFile; fileRef = 1504307D14FAB526002BB7A9 /* Favorite.png */; };
+		1504308414FAB527002BB7A9 /* pauseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1504307E14FAB526002BB7A9 /* pauseButton.png */; };
+		1519591315102E1E003475C4 /* AlarmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1519591115102E1D003475C4 /* AlarmViewController.m */; };
+		1519591415102E1E003475C4 /* AlarmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1519591215102E1E003475C4 /* AlarmViewController.xib */; };
+		15265269150DFF9A0005E537 /* LoopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15265267150DFF9A0005E537 /* LoopViewController.m */; };
+		1526526A150DFF9A0005E537 /* LoopViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15265268150DFF9A0005E537 /* LoopViewController.xib */; };
+		1526526E150DFFB70005E537 /* LoadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1526526C150DFFB70005E537 /* LoadViewController.m */; };
+		1526526F150DFFB70005E537 /* LoadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1526526D150DFFB70005E537 /* LoadViewController.xib */; };
+		15265273150DFFD10005E537 /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15265271150DFFD10005E537 /* TimerViewController.m */; };
+		15265274150DFFD10005E537 /* TimerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15265272150DFFD10005E537 /* TimerViewController.xib */; };
+		1526527D150E01370005E537 /* InfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1526527B150E01370005E537 /* InfoViewController.m */; };
+		1526527E150E01370005E537 /* InfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1526527C150E01370005E537 /* InfoViewController.xib */; };
+		15265282150E01540005E537 /* OptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15265280150E01540005E537 /* OptionViewController.m */; };
+		15265283150E01540005E537 /* OptionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15265281150E01540005E537 /* OptionViewController.xib */; };
+		15265286150E4EEC0005E537 /* LabeledPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15265285150E4EEC0005E537 /* LabeledPickerView.m */; };
+		153FAB6814C7D7D800C6149D /* BtnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 153FAB6714C7D7D800C6149D /* BtnCell.xib */; };
+		15550D2D14E44B1B00CE46C5 /* AAA.png in Resources */ = {isa = PBXBuildFile; fileRef = 15550D2914E44B1B00CE46C5 /* AAA.png */; };
+		15550D2E14E44B1B00CE46C5 /* BBB.png in Resources */ = {isa = PBXBuildFile; fileRef = 15550D2A14E44B1B00CE46C5 /* BBB.png */; };
+		15550D2F14E44B1B00CE46C5 /* Clipping-Sound-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15550D2B14E44B1B00CE46C5 /* Clipping-Sound-icon.png */; };
+		15550D3014E44B1B00CE46C5 /* Clipping-Text-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15550D2C14E44B1B00CE46C5 /* Clipping-Text-icon.png */; };
+		15550D3D14E51F6C00CE46C5 /* __CurrentPlayList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15550D3B14E51F6C00CE46C5 /* __CurrentPlayList.plist */; };
+		15550D3E14E51F6C00CE46C5 /* __Sample.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15550D3C14E51F6C00CE46C5 /* __Sample.plist */; };
+		15550D4014E51F8200CE46C5 /* __icons.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15550D3F14E51F8200CE46C5 /* __icons.plist */; };
+		157FBBF414F621470094563C /* SharedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 157FBBF314F621470094563C /* SharedObject.m */; };
+		157FBBF714F64F700094563C /* SaveViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 157FBBF614F64F700094563C /* SaveViewTableViewCell.xib */; };
+		1590E1A314E8DC5200CD1E40 /* media in Resources */ = {isa = PBXBuildFile; fileRef = 1590E1A214E8DC5200CD1E40 /* media */; };
+		15981C8814C599300014F4DF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15981C8714C599300014F4DF /* UIKit.framework */; };
+		15981C8A14C599300014F4DF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15981C8914C599300014F4DF /* Foundation.framework */; };
+		15981C8C14C599300014F4DF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15981C8B14C599300014F4DF /* CoreGraphics.framework */; };
+		15981C9214C599300014F4DF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 15981C9014C599300014F4DF /* InfoPlist.strings */; };
+		15981C9414C599300014F4DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 15981C9314C599300014F4DF /* main.m */; };
+		15981C9814C599300014F4DF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 15981C9714C599300014F4DF /* AppDelegate.m */; };
+		15981C9B14C599300014F4DF /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15981C9914C599300014F4DF /* MainStoryboard.storyboard */; };
+		15981C9E14C599300014F4DF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15981C9D14C599300014F4DF /* ViewController.m */; };
+		15981CA514C599650014F4DF /* TvCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15981CA414C599650014F4DF /* TvCell.xib */; };
+		159B3EFF14DDB53600A9E235 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 159B3EFC14DDB51A00A9E235 /* AVFoundation.framework */; };
+		15AC50F014DA724B00D198CA /* SelectSoundContorller.m in Sources */ = {isa = PBXBuildFile; fileRef = 15AC50EE14DA724B00D198CA /* SelectSoundContorller.m */; };
+		15AC50F114DA724B00D198CA /* SelectSoundContorller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AC50EF14DA724B00D198CA /* SelectSoundContorller.xib */; };
+		15AC50F314DA7CC600D198CA /* SelectSoundTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15AC50F214DA7CC500D198CA /* SelectSoundTableViewCell.xib */; };
+		15BFD3B814C7B4FE0080384D /* SaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BFD3B714C7B4FE0080384D /* SaveViewController.m */; };
+		15BFD3BD14C7C6A80080384D /* SaveViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15BFD3BC14C7C6A80080384D /* SaveViewController.xib */; };
+		15F9DC9514FD3B3D00431075 /* loopButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 15F9DC9414FD3B3D00431075 /* loopButton.png */; };
+		15F9DC9914FE1CDE00431075 /* _AppImages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15F9DC9814FE1CDE00431075 /* _AppImages.plist */; };
+		15F9DC9C14FE3F5B00431075 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 15F9DC9B14FE3F5A00431075 /* DataManager.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1504307414FAADC2002BB7A9 /* playButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playButton.png; sourceTree = "<group>"; };
+		1504307714FAB375002BB7A9 /* chronmeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chronmeter.png; sourceTree = "<group>"; };
+		1504307914FAB526002BB7A9 /* SaveButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SaveButton.png; sourceTree = "<group>"; };
+		1504307A14FAB526002BB7A9 /* addButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = addButton.png; sourceTree = "<group>"; };
+		1504307B14FAB526002BB7A9 /* LoadButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoadButton.png; sourceTree = "<group>"; };
+		1504307C14FAB526002BB7A9 /* FavoriteStar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FavoriteStar.png; sourceTree = "<group>"; };
+		1504307D14FAB526002BB7A9 /* Favorite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Favorite.png; sourceTree = "<group>"; };
+		1504307E14FAB526002BB7A9 /* pauseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseButton.png; sourceTree = "<group>"; };
+		1519591015102E1D003475C4 /* AlarmViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmViewController.h; sourceTree = "<group>"; };
+		1519591115102E1D003475C4 /* AlarmViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmViewController.m; sourceTree = "<group>"; };
+		1519591215102E1E003475C4 /* AlarmViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlarmViewController.xib; sourceTree = "<group>"; };
+		15265266150DFF9A0005E537 /* LoopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoopViewController.h; sourceTree = "<group>"; };
+		15265267150DFF9A0005E537 /* LoopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoopViewController.m; sourceTree = "<group>"; };
+		15265268150DFF9A0005E537 /* LoopViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoopViewController.xib; sourceTree = "<group>"; };
+		1526526B150DFFB70005E537 /* LoadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadViewController.h; sourceTree = "<group>"; };
+		1526526C150DFFB70005E537 /* LoadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadViewController.m; sourceTree = "<group>"; };
+		1526526D150DFFB70005E537 /* LoadViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadViewController.xib; sourceTree = "<group>"; };
+		15265270150DFFD00005E537 /* TimerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
+		15265271150DFFD10005E537 /* TimerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
+		15265272150DFFD10005E537 /* TimerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimerViewController.xib; sourceTree = "<group>"; };
+		1526527A150E01370005E537 /* InfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoViewController.h; sourceTree = "<group>"; };
+		1526527B150E01370005E537 /* InfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoViewController.m; sourceTree = "<group>"; };
+		1526527C150E01370005E537 /* InfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoViewController.xib; sourceTree = "<group>"; };
+		1526527F150E01540005E537 /* OptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionViewController.h; sourceTree = "<group>"; };
+		15265280150E01540005E537 /* OptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionViewController.m; sourceTree = "<group>"; };
+		15265281150E01540005E537 /* OptionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OptionViewController.xib; sourceTree = "<group>"; };
+		15265284150E4EEC0005E537 /* LabeledPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LabeledPickerView.h; sourceTree = "<group>"; };
+		15265285150E4EEC0005E537 /* LabeledPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LabeledPickerView.m; sourceTree = "<group>"; };
+		153FAB6714C7D7D800C6149D /* BtnCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BtnCell.xib; sourceTree = "<group>"; };
+		15550D2914E44B1B00CE46C5 /* AAA.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AAA.png; sourceTree = "<group>"; };
+		15550D2A14E44B1B00CE46C5 /* BBB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BBB.png; sourceTree = "<group>"; };
+		15550D2B14E44B1B00CE46C5 /* Clipping-Sound-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Clipping-Sound-icon.png"; sourceTree = "<group>"; };
+		15550D2C14E44B1B00CE46C5 /* Clipping-Text-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Clipping-Text-icon.png"; sourceTree = "<group>"; };
+		15550D3B14E51F6C00CE46C5 /* __CurrentPlayList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = __CurrentPlayList.plist; sourceTree = "<group>"; };
+		15550D3C14E51F6C00CE46C5 /* __Sample.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = __Sample.plist; sourceTree = "<group>"; };
+		15550D3F14E51F8200CE46C5 /* __icons.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = __icons.plist; sourceTree = "<group>"; };
+		157FBBF214F621470094563C /* SharedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedObject.h; sourceTree = "<group>"; };
+		157FBBF314F621470094563C /* SharedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedObject.m; sourceTree = "<group>"; };
+		157FBBF614F64F700094563C /* SaveViewTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaveViewTableViewCell.xib; sourceTree = "<group>"; };
+		1590E1A214E8DC5200CD1E40 /* media */ = {isa = PBXFileReference; lastKnownFileType = folder; path = media; sourceTree = "<group>"; };
+		15981C8314C599300014F4DF /* MyTableVie3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyTableVie3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		15981C8714C599300014F4DF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		15981C8914C599300014F4DF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		15981C8B14C599300014F4DF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		15981C8F14C599300014F4DF /* MyTableVie3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MyTableVie3-Info.plist"; sourceTree = "<group>"; };
+		15981C9114C599300014F4DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		15981C9314C599300014F4DF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		15981C9514C599300014F4DF /* MyTableVie3-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyTableVie3-Prefix.pch"; sourceTree = "<group>"; };
+		15981C9614C599300014F4DF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		15981C9714C599300014F4DF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		15981C9A14C599300014F4DF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		15981C9C14C599300014F4DF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		15981C9D14C599300014F4DF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		15981CA414C599650014F4DF /* TvCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TvCell.xib; sourceTree = "<group>"; };
+		159B3EFC14DDB51A00A9E235 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		15AC50ED14DA724B00D198CA /* SelectSoundContorller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectSoundContorller.h; sourceTree = "<group>"; };
+		15AC50EE14DA724B00D198CA /* SelectSoundContorller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectSoundContorller.m; sourceTree = "<group>"; };
+		15AC50EF14DA724B00D198CA /* SelectSoundContorller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectSoundContorller.xib; sourceTree = "<group>"; };
+		15AC50F214DA7CC500D198CA /* SelectSoundTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectSoundTableViewCell.xib; sourceTree = "<group>"; };
+		15BFD3B614C7B4FE0080384D /* SaveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveViewController.h; sourceTree = "<group>"; };
+		15BFD3B714C7B4FE0080384D /* SaveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveViewController.m; sourceTree = "<group>"; };
+		15BFD3BC14C7C6A80080384D /* SaveViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaveViewController.xib; sourceTree = "<group>"; };
+		15F9DC9414FD3B3D00431075 /* loopButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loopButton.png; sourceTree = "<group>"; };
+		15F9DC9714FE192B00431075 /* SharedDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedDefinition.h; sourceTree = "<group>"; };
+		15F9DC9814FE1CDE00431075 /* _AppImages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = _AppImages.plist; sourceTree = "<group>"; };
+		15F9DC9A14FE3F5A00431075 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
+		15F9DC9B14FE3F5A00431075 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		15981C8014C599300014F4DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				159B3EFF14DDB53600A9E235 /* AVFoundation.framework in Frameworks */,
+				15981C8814C599300014F4DF /* UIKit.framework in Frameworks */,
+				15981C8A14C599300014F4DF /* Foundation.framework in Frameworks */,
+				15981C8C14C599300014F4DF /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		15550D2814E44B1B00CE46C5 /* icons */ = {
+			isa = PBXGroup;
+			children = (
+				15F9DC9414FD3B3D00431075 /* loopButton.png */,
+				1504307914FAB526002BB7A9 /* SaveButton.png */,
+				1504307A14FAB526002BB7A9 /* addButton.png */,
+				1504307B14FAB526002BB7A9 /* LoadButton.png */,
+				1504307C14FAB526002BB7A9 /* FavoriteStar.png */,
+				1504307D14FAB526002BB7A9 /* Favorite.png */,
+				1504307E14FAB526002BB7A9 /* pauseButton.png */,
+				1504307714FAB375002BB7A9 /* chronmeter.png */,
+				1504307414FAADC2002BB7A9 /* playButton.png */,
+				15550D2914E44B1B00CE46C5 /* AAA.png */,
+				15550D2A14E44B1B00CE46C5 /* BBB.png */,
+				15550D2B14E44B1B00CE46C5 /* Clipping-Sound-icon.png */,
+				15550D2C14E44B1B00CE46C5 /* Clipping-Text-icon.png */,
+			);
+			path = icons;
+			sourceTree = "<group>";
+		};
+		15550D3914E44B3D00CE46C5 /* playlist */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = playlist;
+			sourceTree = "<group>";
+		};
+		15550D3A14E51F6C00CE46C5 /* settings */ = {
+			isa = PBXGroup;
+			children = (
+				15550D3B14E51F6C00CE46C5 /* __CurrentPlayList.plist */,
+				15550D3C14E51F6C00CE46C5 /* __Sample.plist */,
+				15550D3F14E51F8200CE46C5 /* __icons.plist */,
+				15F9DC9814FE1CDE00431075 /* _AppImages.plist */,
+			);
+			path = settings;
+			sourceTree = "<group>";
+		};
+		15981C7814C599300014F4DF = {
+			isa = PBXGroup;
+			children = (
+				15981C8D14C599300014F4DF /* MyTableVie3 */,
+				15981C8614C599300014F4DF /* Frameworks */,
+				15981C8414C599300014F4DF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		15981C8414C599300014F4DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				15981C8314C599300014F4DF /* MyTableVie3.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		15981C8614C599300014F4DF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				159B3EFC14DDB51A00A9E235 /* AVFoundation.framework */,
+				15981C8714C599300014F4DF /* UIKit.framework */,
+				15981C8914C599300014F4DF /* Foundation.framework */,
+				15981C8B14C599300014F4DF /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		15981C8D14C599300014F4DF /* MyTableVie3 */ = {
+			isa = PBXGroup;
+			children = (
+				15981C9614C599300014F4DF /* AppDelegate.h */,
+				15981C9714C599300014F4DF /* AppDelegate.m */,
+				15981C9914C599300014F4DF /* MainStoryboard.storyboard */,
+				15981C9C14C599300014F4DF /* ViewController.h */,
+				15981C9D14C599300014F4DF /* ViewController.m */,
+				15981C8E14C599300014F4DF /* Supporting Files */,
+				15981CA414C599650014F4DF /* TvCell.xib */,
+				153FAB6714C7D7D800C6149D /* BtnCell.xib */,
+				15BFD3B614C7B4FE0080384D /* SaveViewController.h */,
+				15BFD3B714C7B4FE0080384D /* SaveViewController.m */,
+				15BFD3BC14C7C6A80080384D /* SaveViewController.xib */,
+				157FBBF614F64F700094563C /* SaveViewTableViewCell.xib */,
+				15AC50ED14DA724B00D198CA /* SelectSoundContorller.h */,
+				15AC50EE14DA724B00D198CA /* SelectSoundContorller.m */,
+				15AC50EF14DA724B00D198CA /* SelectSoundContorller.xib */,
+				15AC50F214DA7CC500D198CA /* SelectSoundTableViewCell.xib */,
+				157FBBF214F621470094563C /* SharedObject.h */,
+				157FBBF314F621470094563C /* SharedObject.m */,
+				15F9DC9714FE192B00431075 /* SharedDefinition.h */,
+				15F9DC9A14FE3F5A00431075 /* DataManager.h */,
+				15F9DC9B14FE3F5A00431075 /* DataManager.m */,
+				15265266150DFF9A0005E537 /* LoopViewController.h */,
+				15265267150DFF9A0005E537 /* LoopViewController.m */,
+				15265268150DFF9A0005E537 /* LoopViewController.xib */,
+				1526526B150DFFB70005E537 /* LoadViewController.h */,
+				1526526C150DFFB70005E537 /* LoadViewController.m */,
+				1526526D150DFFB70005E537 /* LoadViewController.xib */,
+				15265270150DFFD00005E537 /* TimerViewController.h */,
+				15265271150DFFD10005E537 /* TimerViewController.m */,
+				15265272150DFFD10005E537 /* TimerViewController.xib */,
+				1526527A150E01370005E537 /* InfoViewController.h */,
+				1526527B150E01370005E537 /* InfoViewController.m */,
+				1526527C150E01370005E537 /* InfoViewController.xib */,
+				1526527F150E01540005E537 /* OptionViewController.h */,
+				15265280150E01540005E537 /* OptionViewController.m */,
+				15265281150E01540005E537 /* OptionViewController.xib */,
+				1519591015102E1D003475C4 /* AlarmViewController.h */,
+				1519591115102E1D003475C4 /* AlarmViewController.m */,
+				1519591215102E1E003475C4 /* AlarmViewController.xib */,
+			);
+			path = MyTableVie3;
+			sourceTree = "<group>";
+		};
+		15981C8E14C599300014F4DF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1590E1A214E8DC5200CD1E40 /* media */,
+				15550D3A14E51F6C00CE46C5 /* settings */,
+				15550D3914E44B3D00CE46C5 /* playlist */,
+				15550D2814E44B1B00CE46C5 /* icons */,
+				15981C8F14C599300014F4DF /* MyTableVie3-Info.plist */,
+				15981C9014C599300014F4DF /* InfoPlist.strings */,
+				15981C9314C599300014F4DF /* main.m */,
+				15981C9514C599300014F4DF /* MyTableVie3-Prefix.pch */,
+				15265284150E4EEC0005E537 /* LabeledPickerView.h */,
+				15265285150E4EEC0005E537 /* LabeledPickerView.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		15981C8214C599300014F4DF /* MyTableVie3 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 15981CA114C599300014F4DF /* Build configuration list for PBXNativeTarget "MyTableVie3" */;
+			buildPhases = (
+				15981C7F14C599300014F4DF /* Sources */,
+				15981C8014C599300014F4DF /* Frameworks */,
+				15981C8114C599300014F4DF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MyTableVie3;
+			productName = MyTableVie3;
+			productReference = 15981C8314C599300014F4DF /* MyTableVie3.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		15981C7A14C599300014F4DF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = 15981C7D14C599300014F4DF /* Build configuration list for PBXProject "MyTableVie3" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 15981C7814C599300014F4DF;
+			productRefGroup = 15981C8414C599300014F4DF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				15981C8214C599300014F4DF /* MyTableVie3 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		15981C8114C599300014F4DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15981C9214C599300014F4DF /* InfoPlist.strings in Resources */,
+				15981C9B14C599300014F4DF /* MainStoryboard.storyboard in Resources */,
+				15981CA514C599650014F4DF /* TvCell.xib in Resources */,
+				15BFD3BD14C7C6A80080384D /* SaveViewController.xib in Resources */,
+				153FAB6814C7D7D800C6149D /* BtnCell.xib in Resources */,
+				15AC50F114DA724B00D198CA /* SelectSoundContorller.xib in Resources */,
+				15AC50F314DA7CC600D198CA /* SelectSoundTableViewCell.xib in Resources */,
+				15550D2D14E44B1B00CE46C5 /* AAA.png in Resources */,
+				15550D2E14E44B1B00CE46C5 /* BBB.png in Resources */,
+				15550D2F14E44B1B00CE46C5 /* Clipping-Sound-icon.png in Resources */,
+				15550D3014E44B1B00CE46C5 /* Clipping-Text-icon.png in Resources */,
+				15550D3D14E51F6C00CE46C5 /* __CurrentPlayList.plist in Resources */,
+				15550D3E14E51F6C00CE46C5 /* __Sample.plist in Resources */,
+				15550D4014E51F8200CE46C5 /* __icons.plist in Resources */,
+				1590E1A314E8DC5200CD1E40 /* media in Resources */,
+				157FBBF714F64F700094563C /* SaveViewTableViewCell.xib in Resources */,
+				1504307514FAADC2002BB7A9 /* playButton.png in Resources */,
+				1504307814FAB375002BB7A9 /* chronmeter.png in Resources */,
+				1504307F14FAB527002BB7A9 /* SaveButton.png in Resources */,
+				1504308014FAB527002BB7A9 /* addButton.png in Resources */,
+				1504308114FAB527002BB7A9 /* LoadButton.png in Resources */,
+				1504308214FAB527002BB7A9 /* FavoriteStar.png in Resources */,
+				1504308314FAB527002BB7A9 /* Favorite.png in Resources */,
+				1504308414FAB527002BB7A9 /* pauseButton.png in Resources */,
+				15F9DC9514FD3B3D00431075 /* loopButton.png in Resources */,
+				15F9DC9914FE1CDE00431075 /* _AppImages.plist in Resources */,
+				1526526A150DFF9A0005E537 /* LoopViewController.xib in Resources */,
+				1526526F150DFFB70005E537 /* LoadViewController.xib in Resources */,
+				15265274150DFFD10005E537 /* TimerViewController.xib in Resources */,
+				1526527E150E01370005E537 /* InfoViewController.xib in Resources */,
+				15265283150E01540005E537 /* OptionViewController.xib in Resources */,
+				1519591415102E1E003475C4 /* AlarmViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		15981C7F14C599300014F4DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				15981C9414C599300014F4DF /* main.m in Sources */,
+				15981C9814C599300014F4DF /* AppDelegate.m in Sources */,
+				15981C9E14C599300014F4DF /* ViewController.m in Sources */,
+				15BFD3B814C7B4FE0080384D /* SaveViewController.m in Sources */,
+				15AC50F014DA724B00D198CA /* SelectSoundContorller.m in Sources */,
+				157FBBF414F621470094563C /* SharedObject.m in Sources */,
+				15F9DC9C14FE3F5B00431075 /* DataManager.m in Sources */,
+				15265269150DFF9A0005E537 /* LoopViewController.m in Sources */,
+				1526526E150DFFB70005E537 /* LoadViewController.m in Sources */,
+				15265273150DFFD10005E537 /* TimerViewController.m in Sources */,
+				1526527D150E01370005E537 /* InfoViewController.m in Sources */,
+				15265282150E01540005E537 /* OptionViewController.m in Sources */,
+				15265286150E4EEC0005E537 /* LabeledPickerView.m in Sources */,
+				1519591315102E1E003475C4 /* AlarmViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		15981C9014C599300014F4DF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				15981C9114C599300014F4DF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		15981C9914C599300014F4DF /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				15981C9A14C599300014F4DF /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		15981C9F14C599300014F4DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		15981CA014C599300014F4DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		15981CA214C599300014F4DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MyTableVie3/MyTableVie3-Prefix.pch";
+				INFOPLIST_FILE = "MyTableVie3/MyTableVie3-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		15981CA314C599300014F4DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MyTableVie3/MyTableVie3-Prefix.pch";
+				INFOPLIST_FILE = "MyTableVie3/MyTableVie3-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		15981C7D14C599300014F4DF /* Build configuration list for PBXProject "MyTableVie3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				15981C9F14C599300014F4DF /* Debug */,
+				15981CA014C599300014F4DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		15981CA114C599300014F4DF /* Build configuration list for PBXNativeTarget "MyTableVie3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				15981CA214C599300014F4DF /* Debug */,
+				15981CA314C599300014F4DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 15981C7A14C599300014F4DF /* Project object */;
+}

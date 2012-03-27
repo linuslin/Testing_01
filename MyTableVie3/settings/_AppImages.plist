@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>loopButton</key>
+	<string>loopButton.png</string>
+	<key>saveButton</key>
+	<string>SaveButton.png</string>
+	<key>loadButton</key>
+	<string>LoadButton.png</string>
+	<key>playButton</key>
+	<string>playButton.png</string>
+	<key>pauseButton</key>
+	<string>pauseButton.png</string>
+	<key>addButton</key>
+	<string>addButton.png</string>
+</dict>
+</plist>
