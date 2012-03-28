@@ -516,10 +516,10 @@ static NSString *ImageKey = @"imageKey";
     AVAudioPlayer * newPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     [newPlayer setVolume:[oldPlayer volume]];
     [newPlayer prepareToPlay];
-    //[oldPlayer stop];
     [self _stop:oldPlayer At:indexPath];
+    [self invalidateTimer: rowIndex];
     oldPlayer = nil;
-    //[self.soundPlayers replaceObjectAtIndex:rowIndex withObject:newPlayer];
+    [self setPlayingState:STOPPED At:rowIndex];
     [self setPlayer:newPlayer At:rowIndex];
     [newPlayer release];
     [fileURL release];
@@ -690,11 +690,13 @@ static NSString *ImageKey = @"imageKey";
         if ([player isPlaying]) {
             [self setPlayingState:PLAYING At:i];
         }else if([timer isValid]){
-            //need to save timer left time.
+            //need to save timer left time then invalidate it.
             NSDate * date = [timer fireDate];
             NSTimeInterval timeInterval = [date timeIntervalSinceNow];
             [self setFireTimeInterval:timeInterval At:i];
             [self setPlayingState:LOOPING At:i];
+            
+            [timer invalidate];
         }else{
             [self setPlayingState:PAUSED At:i];
         }
@@ -763,9 +765,11 @@ static NSString *ImageKey = @"imageKey";
     }
     
     NSInteger waitTime = [[[self.currentPlayList objectAtIndex:index] objectForKey:kLoop] integerValue];
-    if(waitTime < 0)
+    if(waitTime < 0){
+        NSIndexPath * path = [[self.myTableView indexPathsForVisibleRows] objectAtIndex:index];
+        [self changePlayingIcon:STOPPEDICON atIndexPath:path];
         return;
-    if(waitTime == 0){
+    }else if(waitTime == 0){
         NSLog(@"WaitTime should not be zero");
         player.numberOfLoops = -1;
         [player play];
