@@ -97,6 +97,8 @@
     [secArray release];
     [hourArray release];
     [minArray release];
+    [super dealloc];
+     
 }
 
 #pragma mark - IBActions
@@ -240,6 +242,7 @@
     NSInteger tmpMin = [self.timePicker selectedRowInComponent:kMinComponent];
     NSInteger tmpHr = [self.timePicker selectedRowInComponent:kHourComponent];
     NSInteger totalTime = tmpSec + (tmpMin + tmpHr * 60) * 60;
+    NSLog(@"total time: %d",totalTime);
     return totalTime;
 }
 - (void) initPicker{

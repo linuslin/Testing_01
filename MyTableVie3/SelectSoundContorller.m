@@ -208,7 +208,7 @@
     NSInteger row = [indexPath row];
     NSString * fileName = [[self.songList objectAtIndex:row] stringByDeletingPathExtension];
     NSString * extension = [[self.songList objectAtIndex:row] pathExtension];
-    NSString * soundFilePath = [[NSBundle mainBundle] pathForResource: fileName ofType: extension];
+    NSString * soundFilePath = [[NSBundle mainBundle] pathForResource: fileName ofType: extension inDirectory:@"media"];
     //NSLog(@"%@", soundFilePath);
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath: soundFilePath];
     AVAudioPlayer *newPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];

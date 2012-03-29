@@ -348,8 +348,8 @@
     NSMutableArray * fileInfoDictArray = [[NSMutableArray alloc]initWithCapacity:[pathArray count]];
     NSMutableDictionary * fileInfoDict;
     NSMutableDictionary * fileDict;
-    NSLog(@"FileInfoArray: %@", pathArray);
-    NSLog(@"FileInfoError: %@", error);
+    //NSLog(@"FileInfoArray: %@", pathArray);
+    //NSLog(@"FileInfoError: %@", error);
     
     for (NSString * filename in pathArray) {
         fileDict = [dataManager readFromFavorite:[filename lastPathComponent]]; // need release ??

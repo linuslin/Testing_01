@@ -18,7 +18,23 @@
 			<key>Volume</key>
 			<real>0.9</real>
 			<key>Loop</key>
-			<integer>10812</integer>
+			<integer>-1</integer>
+		</dict>
+		<dict>
+			<key>SoundPath</key>
+			<string>tester02.wav</string>
+			<key>Volume</key>
+			<real>0.9</real>
+			<key>Loop</key>
+			<integer>10</integer>
+		</dict>
+		<dict>
+			<key>SoundPath</key>
+			<string>tester01.wav</string>
+			<key>Volume</key>
+			<real>0.7</real>
+			<key>Loop</key>
+			<integer>5</integer>
 		</dict>
 	</array>
 </dict>

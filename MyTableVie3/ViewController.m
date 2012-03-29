@@ -505,7 +505,7 @@ static NSString *ImageKey = @"imageKey";
     NSUInteger rowIndex = [[userInfo objectForKey:kRowIndex] unsignedIntegerValue];
     NSString * fileName = [tmpSoundPath stringByDeletingPathExtension];
     NSString * extension = [tmpSoundPath pathExtension];
-    NSString * soundFilePath = [[NSBundle mainBundle] pathForResource: fileName ofType: extension];
+    NSString * soundFilePath = [[NSBundle mainBundle] pathForResource: fileName ofType: extension inDirectory:@"media"];
     NSURL * fileURL = [[NSURL alloc] initFileURLWithPath: soundFilePath];
     
     NSLog(@"Pass initial");
@@ -514,8 +514,9 @@ static NSString *ImageKey = @"imageKey";
     
     NSIndexPath * indexPath = [self.myTableView indexPathForCell:[[self.myTableView visibleCells] objectAtIndex:rowIndex]];
     AVAudioPlayer * newPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+    [newPlayer setDelegate:self];
     [newPlayer setVolume:[oldPlayer volume]];
-    [newPlayer prepareToPlay];
+    //[newPlayer prepareToPlay];
     [self _stop:oldPlayer At:indexPath];
     [self invalidateTimer: rowIndex];
     oldPlayer = nil;
@@ -545,6 +546,7 @@ static NSString *ImageKey = @"imageKey";
     NSMutableDictionary * tmpDict = [self.currentPlayList objectAtIndex:selectedRow];
     [tmpDict setObject:loopTime forKey:kLoop];
     
+    NSLog(@"loopTime: %d", [loopTime intValue]);
     // update loops
     AVAudioPlayer * player = [self getPlayerAt:selectedRow];
     if ([loopTime intValue]==0){
@@ -555,7 +557,6 @@ static NSString *ImageKey = @"imageKey";
     // Invalidate timer
     NSLog(@"invalide timer");
     [self invalidateTimer: selectedRow];
-    
 }
 
 - (void) invalidateTimer:(NSInteger)index{
@@ -595,7 +596,8 @@ static NSString *ImageKey = @"imageKey";
     for (NSUInteger i = 0 ; i< count; i++){
         fileName = [[[self.currentPlayList objectAtIndex:i] objectForKey:kSoundPath] stringByDeletingPathExtension];
         extension = [[[self.currentPlayList objectAtIndex:i] objectForKey:kSoundPath] pathExtension];
-        soundFilePath = [[NSBundle mainBundle] pathForResource: fileName ofType: extension];
+//        soundFilePath = [[NSBundle mainBundle] pathForResource: fileName ofType: extension];
+        soundFilePath = [[NSBundle mainBundle] pathForResource:fileName ofType:extension inDirectory:@"media"];
         fileURL = [[NSURL alloc] initFileURLWithPath: soundFilePath];
         tmpPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
         
@@ -603,7 +605,7 @@ static NSString *ImageKey = @"imageKey";
         
         [tmpPlayer setVolume:volume];
         [tmpPlayer setDelegate: self];
-        [tmpPlayer prepareToPlay];
+        //[tmpPlayer prepareToPlay];
         [self setPlayer:tmpPlayer At:i];
         [tmpPlayer release];
         [fileURL release];
@@ -618,16 +620,18 @@ static NSString *ImageKey = @"imageKey";
 - (void) pauseAllPlayers {
     NSLog(@"Pause all players");
     AVAudioPlayer * player;
-    for (int i=0; i<[players count]; i++) {
+    for (int i = 0; i < [players count]; i++) {
         player = [self getPlayerAt:i];
         if([player isPlaying]){
             NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
             [self _pause:player At: indexPath];
             //[player pause];
-            
+            NSTimer * timer = [self getTimerAt:i];
+            [timer invalidate];
         }
         
     }
+    NSLog(@"Pass Pause all players");
     //need to invalidate the timer.
 }
 
@@ -669,6 +673,7 @@ static NSString *ImageKey = @"imageKey";
         if (state == PLAYING){
             AVAudioPlayer * player = [self getPlayerAt:i];
             [self _play:player At: indexPath];
+            NSLog(@"player numOfLoops: %d", [player numberOfLoops]);
         }else if(state == LOOPING){
             AVAudioPlayer * player = [self getPlayerAt:i];
             NSTimeInterval interval = [self getFireTimeIntervalAt:i];
@@ -696,7 +701,7 @@ static NSString *ImageKey = @"imageKey";
             [self setFireTimeInterval:timeInterval At:i];
             [self setPlayingState:LOOPING At:i];
             
-            [timer invalidate];
+            //[timer invalidate];
         }else{
             [self setPlayingState:PAUSED At:i];
         }
@@ -792,7 +797,7 @@ static NSString *ImageKey = @"imageKey";
     NSDictionary * userInfo = [sender userInfo];
     AVAudioPlayer * player = [userInfo objectForKey:kPlayerInstance];
     [player stop];
-    [player prepareToPlay];
+//    [player prepareToPlay];
     [player play];
 
 }
