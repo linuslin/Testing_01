@@ -38,6 +38,7 @@ static NSString *ImageKey = @"imageKey";
 
 @synthesize currentPlayList;
 @synthesize currentPlayListDict;
+@synthesize clickedIndexPath;
 @synthesize tvCell;
 @synthesize btnCell;
 @synthesize myTableView;
@@ -216,6 +217,13 @@ static NSString *ImageKey = @"imageKey";
         UISlider * tmpSlider = (UISlider *) [cell viewWithTag:kTableViewCellSliderTag];
         tmpSlider.value = [tmpVolume floatValue];
         
+        if (self.players) {
+            NSIndexPath * path = [self getIndexPathAt:row];
+            if (!path) {
+                [self setIndexPath:indexPath At:row];
+            }
+        }
+        
     }
     return cell;
 }
@@ -364,11 +372,7 @@ static NSString *ImageKey = @"imageKey";
 #pragma mark ViewController IBAction Implement Method
 
 - (IBAction)clickSave:(id)sender
-{
-//    UIAlertView * alertView = [[UIAlertView alloc] initWithTitle:@"Save as Favorite" message:@"Type a name to save" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-//    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
-//    [alertView show];
-//                               
+{                         
     self.saveVC.currentSongListDict = self.currentPlayListDict;
     
     [UIView transitionWithView:self.navigationController.view duration:1.0
@@ -378,10 +382,9 @@ static NSString *ImageKey = @"imageKey";
 
 - (IBAction)clickSelect:(id)sender
 {
-    //NSLog(@"%@",[self.myTableView indexPathForCell:(UITableViewCell *)[[(UIButton *)sender superview]superview]]);
-    
     //setting the selected row
     self.selectVC.selectedRow = [[self.myTableView indexPathForCell:(UITableViewCell *)[[(UIButton *)sender superview]superview]] row];
+    self.clickedIndexPath = [self.myTableView indexPathForCell:(UITableViewCell *)[[sender superview] superview]];
 
     // select view
     [UIView transitionWithView:self.navigationController.view duration:1.0
@@ -409,7 +412,12 @@ static NSString *ImageKey = @"imageKey";
 {
     NSLog(@"ClickLoopButton");
     NSInteger selectedRow = [[self.myTableView indexPathForCell:(UITableViewCell *)[[(UIButton *)sender superview]superview]] row];
+    
+    self.clickedIndexPath = [self.myTableView indexPathForCell:(UITableViewCell *)[[sender superview] superview]];
+    
     self.loopVC.selectedRow = selectedRow;
+    
+    //This is using by LoopView, so should setup in Loop view?
     self.loopVC.loopTime = [[[self.currentPlayList objectAtIndex:selectedRow]objectForKey:kLoop] integerValue];
     if(self.loopVC.loopTime < 0)
         self.loopVC.loopOn = NO;
@@ -512,7 +520,7 @@ static NSString *ImageKey = @"imageKey";
     
     AVAudioPlayer * oldPlayer = [self getPlayerAt: rowIndex];
     
-    NSIndexPath * indexPath = [self.myTableView indexPathForCell:[[self.myTableView visibleCells] objectAtIndex:rowIndex]];
+    NSIndexPath * indexPath = self.clickedIndexPath;//[self.myTableView indexPathForCell:[[self.myTableView visibleCells] objectAtIndex:rowIndex]];
     AVAudioPlayer * newPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     [newPlayer setDelegate:self];
     [newPlayer setVolume:[oldPlayer volume]];
@@ -541,7 +549,7 @@ static NSString *ImageKey = @"imageKey";
     NSDictionary * userInfo = [sender userInfo];
     NSLog(@"Received userInfo: %@",userInfo);
     NSNumber * loopTime = [userInfo objectForKey:kLoop];
-    NSInteger selectedRow = [[userInfo objectForKey:kRowIndex] integerValue];
+    NSInteger selectedRow = [self.clickedIndexPath row];//[[userInfo objectForKey:kRowIndex] integerValue];
     // update currentPlayList
     NSMutableDictionary * tmpDict = [self.currentPlayList objectAtIndex:selectedRow];
     [tmpDict setObject:loopTime forKey:kLoop];
@@ -623,7 +631,7 @@ static NSString *ImageKey = @"imageKey";
     for (int i = 0; i < [players count]; i++) {
         player = [self getPlayerAt:i];
         if([player isPlaying]){
-            NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
+            NSIndexPath * indexPath = [self getIndexPathAt:i];
             [self _pause:player At: indexPath];
             //[player pause];
             NSTimer * timer = [self getTimerAt:i];
@@ -642,7 +650,7 @@ static NSString *ImageKey = @"imageKey";
     for (int i=0; i<[players count]; i++) {
         player = [self getPlayerAt:i];
         if(![player isPlaying]){
-            NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
+            NSIndexPath * indexPath = [self getIndexPathAt:i];
             [self _play:player At:indexPath];
         }
         
@@ -653,7 +661,7 @@ static NSString *ImageKey = @"imageKey";
     NSLog(@"stop All players");
     for (int i = 0; i < [self.players count]; i++) {
         AVAudioPlayer * player = [self getPlayerAt:i];
-        NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
+        NSIndexPath * indexPath = [self getIndexPathAt:i];
         [self _stop:player At:indexPath];
     }
 }
@@ -669,7 +677,7 @@ static NSString *ImageKey = @"imageKey";
     NSLog(@"Replay all players");
     for (int i = 0; i < [self.players count]; i++){
         PLAYINGSTATE state = [self getPlayingStateAt:i];
-        NSIndexPath * indexPath = [self getIndexPathFromTableViewBy:i];
+        NSIndexPath * indexPath = [self getIndexPathAt:i];
         if (state == PLAYING){
             AVAudioPlayer * player = [self getPlayerAt:i];
             [self _play:player At: indexPath];
@@ -805,10 +813,12 @@ static NSString *ImageKey = @"imageKey";
 #pragma mark - players getter and setters
 
 - (void) initPlayers {
-    NSUInteger count = [self.currentPlayList count];
-    self.players = [[NSMutableArray alloc] initWithCapacity:count];
-    for (NSUInteger i = 0 ; i< count; i++){
-        [self.players addObject:[[NSMutableDictionary alloc]init]];
+    if (!self.players){
+        NSUInteger count = [self.currentPlayList count];
+        self.players = [[NSMutableArray alloc] initWithCapacity:count];
+        for (NSUInteger i = 0 ; i< count; i++){
+            [self.players addObject:[[NSMutableDictionary alloc]init]];
+        }
     }
 }
 
@@ -847,6 +857,12 @@ static NSString *ImageKey = @"imageKey";
     return timeInterval;
 }
 
+- (NSIndexPath *) getIndexPathAt:(NSInteger)index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    NSIndexPath * path = [dict objectForKey:kIndexPath];
+    return path;
+}
+
 - (void) setTimer:(NSTimer *)timer At:(NSInteger)index{
     NSMutableDictionary * dict = [self.players objectAtIndex:index];
     [dict setObject:timer forKey:kTimerInstance];
@@ -865,6 +881,11 @@ static NSString *ImageKey = @"imageKey";
 - (void) setFireTimeInterval:(NSTimeInterval)interval At:(NSInteger)index{
     NSMutableDictionary * dict = [self.players objectAtIndex:index];
     [dict setObject:[NSNumber numberWithDouble:interval] forKey:kTimeInterval];
+}
+
+- (void) setIndexPath:(NSIndexPath *)path At:(NSInteger)index{
+    NSMutableDictionary * dict = [self.players objectAtIndex:index];
+    [dict setObject:path forKey:kIndexPath];
 }
 
 @end

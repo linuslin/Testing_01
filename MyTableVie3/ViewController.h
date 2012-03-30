@@ -26,6 +26,7 @@
 #define kTimerInstance @"timerInstance"
 #define kPlayingState @"PlayingState"
 #define kTimeInterval @"TimeInterval"
+#define kIndexPath @"IndexPath"
 
 typedef enum PLAYINGSTATE {
     STOPPED = 1,
@@ -48,6 +49,7 @@ typedef enum ICONTYPE {
     UITableViewCell * tvCell;
     UITableViewCell * btnCell;
     UITableView * myTableView;
+    NSIndexPath * clickedIndexPath;
     
     NSMutableDictionary * currentPlayListDict;
     NSMutableArray * currentPlayList;
@@ -64,8 +66,6 @@ typedef enum ICONTYPE {
     SaveViewController * saveVC;
     SelectSoundContorller * selectVC;
     LoopViewController * loopVC;
-    
-    
     
     UIScrollView * scrollView;
 	UIPageControl * pageControl;
@@ -84,6 +84,8 @@ typedef enum ICONTYPE {
 @property (nonatomic, assign) IBOutlet UITableViewCell * btnCell;
 @property (nonatomic, retain) NSMutableArray * currentPlayList;
 @property (nonatomic, retain) IBOutlet UITableView * myTableView;
+@property (nonatomic, retain) NSIndexPath * clickedIndexPath;
+
 @property (nonatomic, retain) SaveViewController * saveVC;
 @property (nonatomic, retain) SelectSoundContorller * selectVC;
 @property (nonatomic, retain) LoopViewController * loopVC;
@@ -146,11 +148,14 @@ typedef enum ICONTYPE {
 - (PLAYINGSTATE) getPlayingStateAt:(NSInteger)index;
 - (AVAudioPlayer *) getPlayerAt:(NSInteger) index;
 - (NSTimeInterval) getFireTimeIntervalAt:(NSInteger)index;
+- (NSIndexPath *) getIndexPathAt:(NSInteger)index;
 
 - (void) setTimer:(NSTimer *)timer At:(NSInteger)index;
 - (void) setPlayer:(AVAudioPlayer *) player At:(NSInteger)index;
 - (void) setPlayingState:(PLAYINGSTATE) playingState At:(NSInteger)index;
 - (void) setFireTimeInterval:(NSTimeInterval)interval At:(NSInteger)index;
+- (void) setIndexPath:(NSIndexPath *)path At:(NSInteger)index;
+
 
 
 - (NSIndexPath *) getIndexPathFromTableViewBy:(NSInteger)row;
