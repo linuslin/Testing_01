@@ -55,6 +55,9 @@
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+
+static bool inited = NO;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -86,6 +89,9 @@
 {
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     [super viewDidAppear:animated];
+    if(inited){
+        [self reloadData];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -96,6 +102,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
+    inited = YES;
 }
 
 
@@ -116,12 +123,6 @@
 #pragma mark -
 #pragma mark tableview delegate
 
-//- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-//{
-//    //NSLog(@"%@", [listData count]);
-//    return [self.fileInfoArray count] +1 ; //[listData count];
-//    
-//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
@@ -139,12 +140,15 @@
     UITableViewCell * cell;
     cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     if(cell == nil){
-        [[NSBundle mainBundle] loadNibNamed:@"SaveViewTableViewCell" owner:self options:nil];
-        cell = self.saveViewTableViewCell;
-        self.saveViewTableViewCell = nil;
-        UIView *v = [[[UIView alloc] init] autorelease];
-        v.backgroundColor = [UIColor colorWithRed:0.92 green:0.95 blue:1.0 alpha:1.0];
-        cell.selectedBackgroundView = v;
+        NSArray * nib = [[NSBundle mainBundle] loadNibNamed:@"SaveViewTableViewCell" owner:self options:nil];
+        if( [nib count] > 0){
+            cell = self.saveViewTableViewCell;
+            UIView *v = [[[UIView alloc] init] autorelease];
+            v.backgroundColor = [UIColor colorWithRed:0.92 green:0.95 blue:1.0 alpha:1.0];
+            cell.selectedBackgroundView = v;
+        }else {
+            NSLog(@"failed to load saveView cell!");
+        }
 
     }
     NSUInteger section = [indexPath section];
@@ -157,6 +161,8 @@
     //[cell setUserInteractionEnabled:NO];
     
     if(section == 0) {
+        filenameTextFiled.text = @"";
+        descriptTextFiled.text = @"";
         filenameTextFiled.placeholder = fileNamePlaceholder;
         descriptTextFiled.placeholder = descriptionPlaceholder;
         filenameTextFiled.borderStyle = UITextBorderStyleRoundedRect;
@@ -182,40 +188,6 @@
     }
     return sectionTitle2;
 }
-//- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    
-//    static NSString * CellTableIdentifier = @"SavedFilesTableViewCell";
-//    UITableViewCell * cell;
-//    cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
-//    if(cell == nil){
-//        [[NSBundle mainBundle] loadNibNamed:@"SaveViewTableViewCell" owner:self options:nil];
-//        cell = self.saveViewTableViewCell;
-//        self.saveViewTableViewCell = nil;
-//    }
-//    NSUInteger row = [indexPath row];
-//
-//    //load filename and description cell
-//    UITextField * filenameTextFiled = (UITextField *)[cell viewWithTag:kFileNameTag];
-//    UITextField * descriptTextFiled = (UITextField *)[cell viewWithTag:kDescriptionTag];
-//    
-//    if(row == 0) {
-//        filenameTextFiled.placeholder = fileNamePlaceholder;
-//        descriptTextFiled.placeholder = descriptionPlaceholder;
-//        filenameTextFiled.borderStyle = UITextBorderStyleRoundedRect;
-//        descriptTextFiled.borderStyle = UITextBorderStyleRoundedRect;
-//        return cell;
-//    }
-//    NSMutableDictionary * infoDict = [fileInfoArray objectAtIndex:row];
-//    NSString * desStr = [infoDict objectForKey:kFavoriteName];
-//    NSString * filenameStr = [infoDict objectForKey:kFavoriteName];
-//    filenameTextFiled.text = filenameStr;
-//    descriptTextFiled.text = desStr;
-//    filenameTextFiled.borderStyle = UITextBorderStyleNone;
-//    descriptTextFiled.borderStyle = UITextBorderStyleNone;
-//    
-//    [cell setUserInteractionEnabled:NO];
-//    return cell;
-//}
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     //return self.saveViewTableViewCell.bounds.size.height;
@@ -228,20 +200,7 @@
 #pragma mark tableview dataSource
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    [[[self navigationItem] rightBarButtonItem] setEnabled:YES];
-    //NSInteger row = [indexPath row];
-//    NSInteger section = [indexPath section];
     NSLog(@"didSelectedRowAtIndexPath");
-//    if(section == 0){
-//        UITableViewCell * selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-//        [selectedCell setUserInteractionEnabled:YES];
-//        UITextField * filenameTextFiled = (UITextField *)[selectedCell viewWithTag:kFileNameTag];
-//        UITextField * descriptTextFiled = (UITextField *)[selectedCell viewWithTag:kDescriptionTag];
-//        [filenameTextFiled setEnabled:YES];
-//        [descriptTextFiled setEnabled:YES];
-//        [filenameTextFiled becomeFirstResponder];
-//    }
-    
 }
 
 
@@ -319,7 +278,9 @@
 
 - (void) reloadData
 {
-    
+    [[[self navigationItem] rightBarButtonItem] setEnabled:NO];
+    [self __initFileInfoArray];
+    [self.infoTableView reloadData];
 }
 
 // Call this method somewhere in your view controller setup code.
@@ -358,16 +319,14 @@
         [fileInfoDictArray addObject:fileInfoDict];
         [fileInfoDict release];
     }
-    
+    //[self.fileInfoArray release];
     self.fileInfoArray = fileInfoDictArray;
     NSLog(@"fileInfoArray: %@",fileInfoDictArray);
     [fileInfoDictArray release];
 }
 
 
-#pragma mark -
-#pragma mark @selector for keyboard event notification
-
+#pragma mark - @selector for keyboard event notification
 
 // Called when the UIKeyboardDidShowNotification is sent.
 - (void)keyboardWasShown:(NSNotification*)aNotification

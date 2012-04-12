@@ -101,6 +101,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="clickLoadButton:" destination="4" eventType="touchUpInside" id="uBg-g1-sJz"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bzh-PP-24e">
                                         <rect key="frame" x="165" y="3" width="72" height="37"/>
@@ -189,6 +192,7 @@
                 <relationship kind="action" name="changePage:"/>
                 <relationship kind="action" name="changeSliderValue:"/>
                 <relationship kind="action" name="clickImage:"/>
+                <relationship kind="action" name="clickLoodButton:"/>
                 <relationship kind="action" name="clickLoopButton:"/>
                 <relationship kind="action" name="clickPlayButton:"/>
                 <relationship kind="action" name="clickSave:"/>

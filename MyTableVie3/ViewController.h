@@ -14,6 +14,7 @@
 #import "SharedDefinition.h"
 #import <Foundation/Foundation.h>
 #import "LoopViewController.h"
+#import "LoadViewController.h"
 
 #define kTableViewCellImageTag 100
 #define kTableViewCellSelectButtonTag 110
@@ -66,6 +67,7 @@ typedef enum ICONTYPE {
     SaveViewController * saveVC;
     SelectSoundContorller * selectVC;
     LoopViewController * loopVC;
+    LoadViewController * loadVC;
     
     UIScrollView * scrollView;
 	UIPageControl * pageControl;
@@ -77,7 +79,7 @@ typedef enum ICONTYPE {
     // To be used when scrolls originate from the UIPageControl
     BOOL pageControlUsed;
    
-    
+//    UIBackgroundTaskIdentifier mytask;
 }
 
 @property (nonatomic, assign) IBOutlet UITableViewCell * tvCell;
@@ -89,6 +91,8 @@ typedef enum ICONTYPE {
 @property (nonatomic, retain) SaveViewController * saveVC;
 @property (nonatomic, retain) SelectSoundContorller * selectVC;
 @property (nonatomic, retain) LoopViewController * loopVC;
+@property (nonatomic, retain) LoadViewController * loadVC;
+
 @property (nonatomic, retain) NSMutableDictionary * currentPlayListDict;
 @property (nonatomic, retain) NSMutableArray * soundPlayers;
 @property (nonatomic, retain) NSMutableArray * playingIndex;
@@ -111,6 +115,7 @@ typedef enum ICONTYPE {
 - (IBAction)changeSliderValue:(id)sender;
 - (IBAction)clickTrackMangeButton:(id)sender;
 - (IBAction)clickImage:(id) sender;
+- (IBAction)clickLoadButton:(id)sender;
 //- (void) clickBackButton: (id)sender;
 
 

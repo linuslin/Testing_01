@@ -54,7 +54,7 @@ static NSString *ImageKey = @"imageKey";
 @synthesize loopVC;
 @synthesize timersArray;
 @synthesize players;
-
+@synthesize loadVC;
 
 - (void)didReceiveMemoryWarning
 {
@@ -67,6 +67,7 @@ static NSString *ImageKey = @"imageKey";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     //self.currentPlayList = 
     sharedObject = [SharedObject sharedInstance];
     [self _initCurrentPlayListAndDict];
@@ -75,6 +76,11 @@ static NSString *ImageKey = @"imageKey";
     [self _initImageMapping];
     //[self _initTimerArray];
     [self _awakeFromMyNib];
+    UIBackgroundTaskIdentifier mytask;
+    mytask = [[UIApplication sharedApplication]
+              beginBackgroundTaskWithExpirationHandler:^{
+                  // If you're worried about exceeding 10 minutes, handle it here
+              }];
      
     
     //register for selectView notification
@@ -98,6 +104,7 @@ static NSString *ImageKey = @"imageKey";
     self.loopVC = loop;
     [loop release];
     
+
     
     //self.myTableView.rowHeight = 100;
 	// Do any additional setup after loading the view, typically from a nib.
@@ -135,21 +142,25 @@ static NSString *ImageKey = @"imageKey";
     //[self.navigationController se
     [super viewWillAppear:animated];
 }
-
+static bool inApp = NO;
 - (void)viewDidAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewDidAppear:animated];
     //[self palyAllPlayers];
-    [self restorePausedPlayers];
+    if (inApp){
+        [self restorePausedPlayers];
+        inApp =NO;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-    [self savePlayingIndex];
-    [self pauseAllPlayers];
-    
+    if(inApp){
+      [self savePlayingIndex];
+      [self pauseAllPlayers];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -370,6 +381,18 @@ static NSString *ImageKey = @"imageKey";
 
 #pragma mark -
 #pragma mark ViewController IBAction Implement Method
+
+- (IBAction)clickLoadButton:(id)sender{
+    
+    LoadViewController * load = [[LoadViewController alloc] initWithNibName:@"LoadViewController" bundle:nil];
+    [UIView transitionWithView:self.navigationController.view duration:1.0
+                       options: UIViewAnimationOptionTransitionFlipFromRight    animations:^{ [self.navigationController pushViewController:load animated:NO];}
+                    completion:NULL];
+    [load release];
+    
+    
+    
+}
 
 - (IBAction)clickSave:(id)sender
 {                         
@@ -618,6 +641,7 @@ static NSString *ImageKey = @"imageKey";
         [tmpPlayer release];
         [fileURL release];
     }
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
 }
 
 - (NSIndexPath *) getIndexPathFromTableViewBy:(NSInteger)row{
@@ -791,9 +815,32 @@ static NSString *ImageKey = @"imageKey";
     NSDictionary * userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:player,kPlayerInstance, nil];
     NSTimer * tmpTimer = [NSTimer scheduledTimerWithTimeInterval:waitTime target:self selector:@selector(playPlayer:) userInfo:userInfo repeats:NO];
     [self setTimer:tmpTimer At:index];
-    //[self.timersArray replaceObjectAtIndex:index withObject:tmpTimer];
     [userInfo release];
 }
+
+
+- (void) playerThread
+{
+	//id audioRunLoop = CFRunLoopGetCurrent(); 
+	NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	[self initPlayer];
+	CFRunLoopRun();
+	[pool release];
+}  
+
+-(void) initPlayer {   
+    //NSLog(@"YES!");
+    //[[UIApplication sharedApplication] endBackgroundTask:mytask];
+//    NSTimer * stateChange = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:  @selector(checkState) userInfo:nil repeats:NO];  
+}
+                                                                                                        
+-(void) checkState   
+{
+    if(YES){
+        NSLog(@"it works!");
+        CFRunLoopStop(CFRunLoopGetCurrent());
+    }
+} 
 
 #pragma mark - Selectors
 
@@ -802,11 +849,14 @@ static NSString *ImageKey = @"imageKey";
     // need to protect the player is unvalidate
     // stop need to invalidate change need to invalidate
     // 
+    NSLog(@"Hi playPlayer");
     NSDictionary * userInfo = [sender userInfo];
     AVAudioPlayer * player = [userInfo objectForKey:kPlayerInstance];
     [player stop];
+    //[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
 //    [player prepareToPlay];
     [player play];
+    //[[UIApplication sharedApplication] endBackgroundTask:mytask];
 
 }
 
