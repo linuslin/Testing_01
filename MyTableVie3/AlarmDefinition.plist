@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SnoozeSecondsDict</key>
+	<dict>
+		<key>0</key>
+		<string>None</string>
+		<key>180</key>
+		<string>3 minutes</string>
+		<key>300</key>
+		<string>5 minutes</string>
+		<key>600</key>
+		<string>10 minutes</string>
+		<key>900</key>
+		<string>15 minutes</string>
+		<key>1800</key>
+		<string>30 minutes</string>
+	</dict>
+	<key>FadeInOutSecondsDict</key>
+	<dict>
+		<key>0</key>
+		<string>None</string>
+		<key>10</key>
+		<string>10 Seconds</string>
+		<key>15</key>
+		<string>15 Seconds</string>
+		<key>30</key>
+		<string>30 Seconds</string>
+		<key>60</key>
+		<string>1 minute</string>
+		<key>120</key>
+		<string>2 minutes</string>
+	</dict>
+</dict>
+</plist>
