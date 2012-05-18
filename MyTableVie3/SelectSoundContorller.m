@@ -13,6 +13,7 @@
 
 @synthesize selectSoundTableViewCell;
 @synthesize songList;
+@synthesize downloadSongList;
 @synthesize selectTableView;
 @synthesize currentSong;
 @synthesize myPlayer;
@@ -88,13 +89,24 @@
 {
     [super viewDidLoad];
     NSMutableArray * songArray = [[NSMutableArray alloc] initWithCapacity:10];
-    for (NSString * song in [[NSBundle mainBundle] pathsForResourcesOfType:@"mp3" inDirectory:@"media/"]) {
+    for (NSString * song in [[NSBundle mainBundle] pathsForResourcesOfType:nil inDirectory:@"media/"]) {
         //NSString * filename = [[song lastPathComponent] stringByDeletingPathExtension];
         NSString * filename = [song lastPathComponent];
         [songArray addObject:filename];
         NSLog(@"%@", filename);	
     }
     
+    NSMutableArray * downloadSongArray = [[NSMutableArray alloc] initWithCapacity:10];
+    NSString * downloadDir = [DataManager defaultManger].downloadDirectory;
+    //NSLog(@"FileInfoError downloladDir: %@", downloladDir);
+    NSURL * fileURL = [[NSURL alloc] initFileURLWithPath: downloadDir isDirectory:YES];
+    NSError * error;
+    NSArray * pathArray = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:fileURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];    
+    for (NSString * song in pathArray){
+        NSString * filename = [song lastPathComponent];
+        [downloadSongArray addObject:filename];
+        NSLog(@"%@", filename);	
+    }
     
     self.songList = songArray;
     if (songArray.count > 0) {
@@ -103,6 +115,8 @@
     }else {
         self.currentSong = nil;
     }
+    
+    self.downloadSongList =  downloadSongArray;
     
     // setting done button action to clickDoneButton
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
@@ -120,7 +134,7 @@
     
     
     [songArray release];
-    
+    [downloadSongArray release];
     self.sharedObject = [SharedObject sharedInstance];
     self.imageMapping = [sharedObject imageMapping];
     
@@ -157,10 +171,28 @@
 #pragma mark -
 #pragma mark tableview delegate and data source
 
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //NSLog(@"%@", [listData count]);
-    return [self.songList count];; //[listData count];
+    if(section == 0){
+        return [self.songList count]; //[listData count];
+    }else if(section ==1){
+        return [self.downloadSongList count];
+    }
+    return 0;
+}
+
+- (NSString*) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (section==0) {
+        return originalSectionName;
+    }else if (section == 1){
+        return DownloadedSectionName;
+    }
+    return nil;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -175,18 +207,26 @@
     }
     
     NSUInteger row = [indexPath row];
+    NSUInteger section = [indexPath section];
     UILabel * label = (UILabel *)[cell viewWithTag:kSelectTableViewCellLabelTag];
-    label.text = [self.songList objectAtIndex:row];
+    if( section == 0){
+        label.text = [self.songList objectAtIndex:row];        
+        //load img
+        NSString * imgPath = [self.imageMapping objectForKey:[[self.songList objectAtIndex:row] lastPathComponent]];
+        UIImage * img = [UIImage imageNamed:imgPath];
+        UIImageView * imgV = (UIImageView *)[cell viewWithTag:kSelectTableViewCellImageTag];
+        imgV.image = img;
+        
+    }else if (section ==1){
+        label.text = [self.downloadSongList objectAtIndex:row];
+        NSString * imgPath = [self.imageMapping objectForKey:[[self.downloadSongList objectAtIndex:row] lastPathComponent]];
+        UIImage * img = [UIImage imageNamed:imgPath];
+        UIImageView * imgV = (UIImageView *)[cell viewWithTag:kSelectTableViewCellImageTag];
+        imgV.image = img;
+        
+    }
     [label sizeToFit];
-    
-    
-    //load image
-    NSString * imgPath = [self.imageMapping objectForKey:[[self.songList objectAtIndex:row] lastPathComponent]];
-    NSLog(@"%@",imgPath);
-    UIImage * img = [UIImage imageNamed:imgPath];
-    //UIImageView * imgView = [[UIImageView alloc] initWithImage:img];
-    UIImageView * imgV = (UIImageView *)[cell viewWithTag:kSelectTableViewCellImageTag];
-    imgV.image = img;
+        
     
     return cell;
 }
@@ -206,11 +246,26 @@
     }
     
     NSInteger row = [indexPath row];
-    NSString * fileName = [[self.songList objectAtIndex:row] stringByDeletingPathExtension];
-    NSString * extension = [[self.songList objectAtIndex:row] pathExtension];
-    NSString * soundFilePath = [[NSBundle mainBundle] pathForResource: fileName ofType: extension inDirectory:@"media"];
+    NSUInteger section = [indexPath section];
+    NSString * soundFilePath;
+    NSString * extension;
+    NSString * fileName;
+    //NSURL * fileURL;
+    if( section == 0){
+        fileName = [[self.songList objectAtIndex:row] stringByDeletingPathExtension];
+        extension = [[self.songList objectAtIndex:row] pathExtension];
+        soundFilePath = [[NSBundle mainBundle] pathForResource: fileName ofType: extension inDirectory:@"media"];
+    }else if (section == 1) {
+        fileName = [[self.downloadSongList objectAtIndex:row] stringByDeletingPathExtension];
+        extension = [[self.downloadSongList objectAtIndex:row] pathExtension];
+        NSString * downloadDir = [DataManager defaultManger].downloadDirectory;
+        //NSLog(@"FileInfoError downloladDir: %@", downloladDir);
+//        soundFilePath = [downloadDir stringByAppendingFormat:@"/%@",fileName];
+        soundFilePath = [downloadDir stringByAppendingPathComponent:[self.downloadSongList objectAtIndex:row]];
+        NSLog(@"%@",soundFilePath);
+    }
     //NSLog(@"%@", soundFilePath);
-    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath: soundFilePath];
+    NSURL * fileURL = [[NSURL alloc] initFileURLWithPath: soundFilePath];
     AVAudioPlayer *newPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
     
     self.myPlayer = newPlayer;
@@ -221,8 +276,9 @@
     
     //[player setVolume:0.5f];
     [self.myPlayer setVolume:0.5f];
+    self.myPlayer.numberOfLoops = -1;
     [self.myPlayer setDelegate: self];
-    //[self.player prepareToPlay];
+    [self.myPlayer prepareToPlay];
     [self.myPlayer play];
     
 }

@@ -13,12 +13,15 @@
 
 #define kSelectTableViewCellImageTag 101
 #define kSelectTableViewCellLabelTag 102
+static NSString * originalSectionName = @"Original Ambients";
+static NSString * DownloadedSectionName = @"Downloaded Ambients";
 
 @interface SelectSoundContorller : UIViewController <UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate>
 {
     UITableView * selectTableView;
     UITableViewCell * selectSoundTableViewCell;
     NSMutableArray * songList;
+    NSMutableArray * downloadSongList;
     NSString * currentSong;
     AVAudioPlayer * myPlayer;
     NSInteger selectedRow;
@@ -26,9 +29,11 @@
     NSDictionary * imageMapping;
 }
 
+
 @property (nonatomic, retain) IBOutlet UITableView * selectTableView;
 @property (nonatomic, retain) IBOutlet UITableViewCell * selectSoundTableViewCell;
 @property (nonatomic, retain) NSMutableArray * songList;
+@property (nonatomic, retain) NSMutableArray * downloadSongList;
 @property (nonatomic, copy) NSString * currentSong;
 @property (nonatomic, retain) AVAudioPlayer * myPlayer;
 @property (nonatomic, assign) NSInteger selectedRow;
