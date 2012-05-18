@@ -253,20 +253,19 @@ static bool inited = NO;
     UITableViewCell * selectedCell = [self.infoTableView cellForRowAtIndexPath:selectedPath];
     UITextField * filenameTextFiled = (UITextField *)[selectedCell viewWithTag:kFileNameTag];
     UITextField * descriptTextFiled = (UITextField *)[selectedCell viewWithTag:kDescriptionTag];
-    NSString * filename = filenameTextFiled.text;
-    if(![[[filename pathExtension] lowercaseString] isEqualToString:@"plist"]){
-        filename = [filename stringByAppendingPathExtension:@"plist"];
-    }
+    NSString * favFilename = filenameTextFiled.text;
     NSString * description = descriptTextFiled.text;
+    NSString * newRealFilename = [NSString stringWithFormat:@"%d.plist", [[NSDate date] timeIntervalSince1970]];
     NSMutableDictionary * resultDict = [[NSMutableDictionary alloc] initWithDictionary:self.currentSongListDict];
     [resultDict setValue:description forKey:kFavoriteDescription];
-    [[DataManager defaultManger] writeToFavorite:filename :resultDict];
+    [resultDict setValue:favFilename forKey:kFavoriteName];
+    [resultDict setValue:newRealFilename forKey:kRealFileName];
+    [[DataManager defaultManger] writeToFavorite:newRealFilename :resultDict];
     if (section > 0) {
         //replace file
         NSMutableDictionary * selectedFileInfoDict = [self.fileInfoArray objectAtIndex:row];
-        NSString * fileNeed2Remove = [selectedFileInfoDict objectForKey:kFavoriteName];
-        if(![fileNeed2Remove isEqualToString:filename])
-            [[DataManager defaultManger] removeFileFromFavorite:fileNeed2Remove];
+        NSString * fileNeed2Remove = [selectedFileInfoDict objectForKey:kRealFileName];
+        [[DataManager defaultManger] removeFileFromFavorite:fileNeed2Remove];
     }
     [resultDict release];
 }
@@ -297,32 +296,8 @@ static bool inited = NO;
 }
 
 - (void) __initFileInfoArray{
-    NSError * error;
-    DataManager * dataManager = [DataManager defaultManger];
-    
-    NSString * favDir = dataManager.favoriteDirectory;
-    NSLog(@"FileInfoError favDir: %@", favDir);
-    NSURL * fileURL = [[NSURL alloc] initFileURLWithPath: favDir isDirectory:YES];
-    //NSArray * filenameArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:favDir error:&error];
-    NSArray * pathArray = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:fileURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
-    
-    NSMutableArray * fileInfoDictArray = [[NSMutableArray alloc]initWithCapacity:[pathArray count]];
-    NSMutableDictionary * fileInfoDict;
-    NSMutableDictionary * fileDict;
-    //NSLog(@"FileInfoArray: %@", pathArray);
-    //NSLog(@"FileInfoError: %@", error);
-    
-    for (NSString * filename in pathArray) {
-        fileDict = [dataManager readFromFavorite:[filename lastPathComponent]]; // need release ??
-        NSString * description = [fileDict objectForKey:kFavoriteDescription];
-        fileInfoDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys: [filename lastPathComponent], kFavoriteName, description, kFavoriteDescription, nil];
-        [fileInfoDictArray addObject:fileInfoDict];
-        [fileInfoDict release];
-    }
-    //[self.fileInfoArray release];
-    self.fileInfoArray = fileInfoDictArray;
-    NSLog(@"fileInfoArray: %@",fileInfoDictArray);
-    [fileInfoDictArray release];
+    DataManager * manger = [DataManager defaultManger];
+    self.fileInfoArray = [manger getFileInfoArray];
 }
 
 
