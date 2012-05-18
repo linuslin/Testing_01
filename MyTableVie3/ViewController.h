@@ -15,6 +15,8 @@
 #import <Foundation/Foundation.h>
 #import "LoopViewController.h"
 #import "LoadViewController.h"
+#import "DownloadViewController.h"
+#import "AlarmListViewController.h"
 
 #define kTableViewCellImageTag 100
 #define kTableViewCellSelectButtonTag 110
@@ -116,6 +118,8 @@ typedef enum ICONTYPE {
 - (IBAction)clickTrackMangeButton:(id)sender;
 - (IBAction)clickImage:(id) sender;
 - (IBAction)clickLoadButton:(id)sender;
+- (IBAction)clickDownloadButton:(id)sender;
+- (IBAction)clickAlarmButton:(id)sender;
 //- (void) clickBackButton: (id)sender;
 
 

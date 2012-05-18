@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SaveViewController.h"
+//#import "SaveViewController.h"
 //#import "SelectSoundContorller.h"
 
 
@@ -92,9 +92,9 @@ static NSString *ImageKey = @"imageKey";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateLoopTime:) name:@"updateLoopTime" object:nil];
     
     
-    SaveViewController * save = [[SaveViewController alloc] initWithNibName:@"SaveViewController" bundle:nil];
-    self.saveVC = save;
-    [save release];
+    //SaveViewController * save = [[SaveViewController alloc] initWithNibName:@"SaveViewController" bundle:nil];
+    //self.saveVC = save;
+    //[save release];
     
     SelectSoundContorller * select = [[SelectSoundContorller alloc] initWithNibName:@"SelectSoundContorller" bundle:nil];
     self.selectVC = select;
@@ -150,7 +150,7 @@ static bool inApp = NO;
     //[self palyAllPlayers];
     if (inApp){
         [self restorePausedPlayers];
-        inApp =NO;
+        inApp = NO;
     }
 }
 
@@ -171,7 +171,7 @@ static bool inApp = NO;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return NO;//(interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 
@@ -382,7 +382,27 @@ static bool inApp = NO;
 #pragma mark -
 #pragma mark ViewController IBAction Implement Method
 
+- (IBAction)clickAlarmButton:(id)sender{
+    inApp = YES;
+    
+    AlarmListViewController * alarm = [[AlarmListViewController alloc] initWithNibName:@"AlarmListViewController" bundle:nil];
+    [UIView transitionWithView:self.navigationController.view duration:1.0
+                       options: UIViewAnimationOptionTransitionFlipFromRight    animations:^{ [self.navigationController pushViewController:alarm animated:NO];}
+                    completion:NULL];
+    [alarm release];
+}
+
+- (IBAction)clickDownloadButton:(id)sender{
+    inApp = YES;
+    DownloadViewController * downLoad = [[DownloadViewController alloc] initWithNibName:@"DownloadViewController" bundle:nil];
+    [UIView transitionWithView:self.navigationController.view duration:1.0
+                       options: UIViewAnimationOptionTransitionFlipFromRight    animations:^{ [self.navigationController pushViewController:downLoad animated:NO];}
+                    completion:NULL];
+    [downLoad release];
+}
+
 - (IBAction)clickLoadButton:(id)sender{
+    inApp = YES;
     
     LoadViewController * load = [[LoadViewController alloc] initWithNibName:@"LoadViewController" bundle:nil];
     [UIView transitionWithView:self.navigationController.view duration:1.0
@@ -395,16 +415,22 @@ static bool inApp = NO;
 }
 
 - (IBAction)clickSave:(id)sender
-{                         
-    self.saveVC.currentSongListDict = self.currentPlayListDict;
+{
+    inApp = YES;
+   
+    SaveViewController * save = [[SaveViewController alloc] initWithNibName:@"SaveViewController" bundle:nil];
+    save.currentSongListDict = self.currentPlayListDict;
+    
     
     [UIView transitionWithView:self.navigationController.view duration:1.0
-     options: UIViewAnimationOptionTransitionFlipFromRight    animations:^{ [self.navigationController pushViewController:self.saveVC animated:NO];}
+     options: UIViewAnimationOptionTransitionFlipFromRight    animations:^{ [self.navigationController pushViewController:save animated:NO];}
      completion:NULL];
+    [save release];
 }
 
 - (IBAction)clickSelect:(id)sender
 {
+    inApp = YES;
     //setting the selected row
     self.selectVC.selectedRow = [[self.myTableView indexPathForCell:(UITableViewCell *)[[(UIButton *)sender superview]superview]] row];
     self.clickedIndexPath = [self.myTableView indexPathForCell:(UITableViewCell *)[[sender superview] superview]];
@@ -433,6 +459,7 @@ static bool inApp = NO;
 
 - (IBAction)clickLoopButton:(id)sender
 {
+    inApp = YES;
     NSLog(@"ClickLoopButton");
     NSInteger selectedRow = [[self.myTableView indexPathForCell:(UITableViewCell *)[[(UIButton *)sender superview]superview]] row];
     
