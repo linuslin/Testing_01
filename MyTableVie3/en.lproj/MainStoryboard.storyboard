@@ -41,11 +41,11 @@
                                         </state>
                                     </button>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="D3S-2X-jvf">
-                                        <rect key="frame" x="54" y="11" width="152" height="23"/>
+                                        <rect key="frame" x="54" y="11" width="185" height="23"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </slider>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7FP-wD-Vab">
-                                        <rect key="frame" x="212" y="0.0" width="75" height="44"/>
+                                        <rect key="frame" x="245" y="0.0" width="75" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" image="chronmeter.png">
@@ -55,18 +55,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" id="546-MF-6cF">
-                                        <rect key="frame" x="292" y="6" width="29" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal">
-                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <state key="highlighted">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
+                                        <connections>
+                                            <action selector="clickAlarmButton:" destination="4" eventType="touchUpInside" id="Ipl-Vw-wNi"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -128,6 +119,9 @@
                                         <state key="highlighted">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="clickDownloadButton:" destination="4" eventType="touchUpInside" id="rct-45-1yU"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -191,8 +185,10 @@
             <relationships>
                 <relationship kind="action" name="changePage:"/>
                 <relationship kind="action" name="changeSliderValue:"/>
+                <relationship kind="action" name="clickAlarmButton:"/>
+                <relationship kind="action" name="clickDownloadButton:"/>
                 <relationship kind="action" name="clickImage:"/>
-                <relationship kind="action" name="clickLoodButton:"/>
+                <relationship kind="action" name="clickLoadButton:"/>
                 <relationship kind="action" name="clickLoopButton:"/>
                 <relationship kind="action" name="clickPlayButton:"/>
                 <relationship kind="action" name="clickSave:"/>
