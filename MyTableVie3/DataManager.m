@@ -12,17 +12,19 @@
 - (void) __initDocumentDirectory;
 - (void) __initTmpDirectory;
 - (void) __initFavoriteDirectory;
+- (void) __initDownloadDirectory;
 
 - (id) __readFromDirectory:(NSString *)filename;
 - (void) __removeFileFrom:(NSString *)path;
-   
+
+- (void) __initFileInfoArray;
 @end
 
 @implementation DataManager
 
 static DataManager * defaultManager = nil;
 
-@synthesize tmpDirectory, documentsDirectory, favoriteDirectory;
+@synthesize tmpDirectory, documentsDirectory, favoriteDirectory, downloadDirectory;
 
 
 #pragma mark -
@@ -37,6 +39,7 @@ static DataManager * defaultManager = nil;
         [self __initDocumentDirectory];
         [self __initTmpDirectory];
         [self __initFavoriteDirectory];
+        [self __initDownloadDirectory];
         // init tmp directory path;
     }
     
@@ -98,6 +101,34 @@ static DataManager * defaultManager = nil;
 #pragma mark -
 #pragma mark instance methods
 
+- (void) saveData:(id)data asFileName:(NSString *) filename inDirectory:(DATAMANAGERDIRECTORY) Directory{
+    switch (Directory) {
+        case DOCUMENTDIRECTORY:
+            [self writeToDocuments: filename: data];
+            break;
+            
+        case TMPDIRECTORY:
+            [self writeToTmp: filename: data];
+            break;
+            
+        case DOWNLOADDIRECTORY:
+            [self writeToDownload: filename data: data];
+            break;
+            
+        case FAVORITEDIRECTORY:
+            [self writeToFavorite:filename: data];
+            break;
+            
+        default:
+            NSLog(@"Unknow where to write file.");
+            break;
+    }
+}
+
+- (void) saveData:(id)data atPath:(NSString *) path{
+    [data writeToFile:path atomically:YES];
+}
+
 - (void) writeToTmp:(NSString *)filename:(id)data{
     //NSError * error = [[NSError alloc] init];
     NSString * path = [self.tmpDirectory stringByAppendingPathComponent:filename];
@@ -112,6 +143,12 @@ static DataManager * defaultManager = nil;
 
 - (void) writeToFavorite:(NSString *) filename:(id)data{
     //NSError * error = [[NSError alloc] init];
+    NSString * path = [self.documentsDirectory stringByAppendingPathComponent:[kFavoriteDirectory stringByAppendingPathComponent:filename]];
+    [data writeToFile:path atomically:YES];
+}
+
+- (void) writeToDownload:(NSString *) filename data:(id)data{
+//NSError * error = [[NSError alloc] init];
     NSString * path = [self.documentsDirectory stringByAppendingPathComponent:[kFavoriteDirectory stringByAppendingPathComponent:filename]];
     [data writeToFile:path atomically:YES];
 }
@@ -133,6 +170,11 @@ static DataManager * defaultManager = nil;
     return [self __readFromDirectory:path];
 }
 
+- (NSMutableDictionary *) readFromDownload:(NSString *) filename{
+    NSString * path = [self.favoriteDirectory stringByAppendingPathComponent:filename];
+    NSLog(@"readFromDownload: %@", filename);
+    return [self __readFromDirectory:path];
+}
 
 - (void) removeFileFromDocuments:(NSString *) path{
     NSString * truePath = [self.documentsDirectory stringByAppendingPathComponent:path];
@@ -147,9 +189,45 @@ static DataManager * defaultManager = nil;
     [self __removeFileFrom:truePath];
 }
 
+- (void) removeFileFromDownload:(NSString *) path{
+    NSString * truePath = [self.downloadDirectory stringByAppendingPathComponent:path];
+    [self __removeFileFrom:truePath];
+}
+
 //- (NSArray*) listDirectory:(NSString*)path{
 //    NSSearchPathForDirectoriesInDomains
 //}
+
+- (NSMutableArray *) getFileInfoArray;{
+    NSError * error;
+    //DataManager * dataManager = [DataManager defaultManger];
+    
+    NSString * favDir = self.favoriteDirectory;
+    NSLog(@"FileInfoError favDir: %@", favDir);
+    NSURL * fileURL = [[NSURL alloc] initFileURLWithPath: favDir isDirectory:YES];
+    //NSArray * filenameArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:favDir error:&error];
+    NSArray * pathArray = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:fileURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
+    
+    NSMutableArray * fileInfoDictArray = [[NSMutableArray alloc]initWithCapacity:[pathArray count]];
+    NSMutableDictionary * fileInfoDict;
+    NSMutableDictionary * fileDict;
+    //NSLog(@"FileInfoArray: %@", pathArray);
+    //NSLog(@"FileInfoError: %@", error);
+    
+    for (NSString * realFilename in pathArray) {
+        fileDict = [self readFromFavorite:[realFilename lastPathComponent]]; // need release ??
+        NSString * favName = [fileDict objectForKey:kFavoriteName];
+        NSString * description = [fileDict objectForKey:kFavoriteDescription];
+        fileInfoDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys: [realFilename lastPathComponent], kRealFileName,favName, kFavoriteName, description, kFavoriteDescription, nil];
+        [fileInfoDictArray addObject:fileInfoDict];
+        [fileInfoDict release];
+    }
+    
+    //[fileURL release];
+    //[pathArray release];
+    
+    return fileInfoDictArray;
+}
 
 #pragma mark -
 #pragma mark private methods
@@ -173,6 +251,15 @@ static DataManager * defaultManager = nil;
         [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:&error];
     }
     self.favoriteDirectory = path;
+}
+
+- (void) __initDownloadDirectory{
+    NSError * error;
+    NSString * path = [self.documentsDirectory stringByAppendingPathComponent:kDownloadDirectory];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:path]){
+        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:NO attributes:nil error:&error];
+    }
+    self.downloadDirectory = path;
 }
 
 - (id) __readFromDirectory:(NSString *)filename{
@@ -199,4 +286,7 @@ static DataManager * defaultManager = nil;
         }
     }
 }
+
+
+
 @end
