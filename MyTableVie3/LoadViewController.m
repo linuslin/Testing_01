@@ -22,6 +22,8 @@
 @synthesize beingEditingTextField;
 @synthesize animatedDistance;
 @synthesize reusableCancelButton;
+@synthesize originFileNameString;
+@synthesize originDescriptionString;
 
 
 
@@ -131,8 +133,9 @@
     
     [filenameTextFiled becomeFirstResponder];
     
-    
-  
+    //backup origin text;
+    self.originDescriptionString = descriptTextFiled.text;
+    self.originFileNameString = filenameTextFiled.text;
     
 }
 
@@ -147,6 +150,15 @@
     
     [filenameTextFiled setUserInteractionEnabled:NO];
     [descriptTextFiled setUserInteractionEnabled:NO];
+    [self.lastButton setHidden:NO];
+    [self.lastButton setHighlighted:YES];
+    
+    NSInteger selectedRow = [path row];
+    NSDictionary * selectedDict = [fileInfoArray objectAtIndex:selectedRow];
+    [selectedDict setValue:filenameTextFiled.text forKey:kFavoriteName];
+    [selectedDict setValue:descriptTextFiled.text forKey:kFavoriteDescription];
+    NSString * realFilename = [selectedDict objectForKey:kRealFileName];
+    [[DataManager defaultManger] writeToFavorite:realFilename :selectedDict];
     
     //[filenameTextFiled becomeFirstResponder];
 }
@@ -224,9 +236,14 @@
 {
     NSUInteger row = [indexPath row];
     if(editingStyle == UITableViewCellEditingStyleDelete){
+        
+        // delete the real file
+        NSMutableDictionary * selectedFileInfoDict = [self.fileInfoArray objectAtIndex:row];
+        NSString * fileNeed2Remove = [selectedFileInfoDict objectForKey:kRealFileName];
+        [[DataManager defaultManger] removeFileFromFavorite:fileNeed2Remove];
+        
         [self.fileInfoArray removeObjectAtIndex:row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        NSLog(@"delete the file");
     }
 }
 
@@ -342,52 +359,47 @@
     [UIView setAnimationDuration:KEYBOARD_ANIMATION_DURATION];
     
     [self.view setFrame:viewFrame];
-    
     [UIView commitAnimations];
-    
+
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField{
+    return YES;
 }
 
 #pragma mark - Private Methods
 
 
 - (void) __initFileInfoArray{
-    NSError * error;
-    DataManager * dataManager = [DataManager defaultManger];
-    
-    NSString * favDir = dataManager.favoriteDirectory;
-    NSLog(@"FileInfoError favDir: %@", favDir);
-    NSURL * fileURL = [[NSURL alloc] initFileURLWithPath: favDir isDirectory:YES];
-    //NSArray * filenameArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:favDir error:&error];
-    NSArray * pathArray = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:fileURL includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:&error];
-    
-    NSMutableArray * fileInfoDictArray = [[NSMutableArray alloc]initWithCapacity:[pathArray count]];
-    NSMutableDictionary * fileInfoDict;
-    NSMutableDictionary * fileDict;
-    //NSLog(@"FileInfoArray: %@", pathArray);
-    //NSLog(@"FileInfoError: %@", error);
-    
-    for (NSString * filename in pathArray) {
-        fileDict = [dataManager readFromFavorite:[filename lastPathComponent]]; // need release ??
-        NSString * description = [fileDict objectForKey:kFavoriteDescription];
-        fileInfoDict = [[NSMutableDictionary alloc] initWithObjectsAndKeys: [filename lastPathComponent], kFavoriteName, description, kFavoriteDescription, nil];
-        [fileInfoDictArray addObject:fileInfoDict];
-        [fileInfoDict release];
-    }
-    //[self.fileInfoArray release];
-    self.fileInfoArray = fileInfoDictArray;
-    NSLog(@"fileInfoArray: %@",fileInfoDictArray);
-    [fileInfoDictArray release];
+    DataManager * manger = [DataManager defaultManger];
+    self.fileInfoArray = [manger getFileInfoArray];
 }
 
 - (void) clickDoneButton:(id)sender{
     NSLog(@"Click done Button");
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (void) commitChange{}
+- (void) commitChange{
+    //save the change on textFiled
+    
+}
 
 - (void) clickCancelButton:(id) sender {
     //self.navigationItem.leftBarButtonItem = nil;
     [beingEditingTextField endEditing:YES];
+    NSIndexPath * path = [self.infoTableView indexPathForSelectedRow];
+    UITableViewCell * cell = [infoTableView cellForRowAtIndexPath:path];
+    
+    UITextField * filenameTextFiled = (UITextField *)[cell viewWithTag:kLoadViewFileNameTag];
+    UITextField * descriptTextFiled = (UITextField *)[cell viewWithTag:kLoadViewDescriptionTag];
+
+    filenameTextFiled.text = self.originFileNameString;
+    descriptTextFiled.text = self.originDescriptionString;
+    
+    [filenameTextFiled setEnabled:NO];
+    [descriptTextFiled setEnabled:NO];
+    
+    [self navigationItem].rightBarButtonItem.enabled = NO;
 //    [self.view becomeFirstResponder];
 }
 
